@@ -115,8 +115,12 @@ class QuillPasteSmart extends Clipboard {
     ) {
       content = this.quill.getText(range.index, range.length);
 
+      console.log("slinto content", content);
+      console.log("slinto text", text);
+
       // NOTE: add https:// to url if not contains
       const link = !/^https?:\/\//i.test(text) ? `https://${text}` : text;
+      console.log("slinto link", link);
 
       delta = delta.insert(content, {
         link,
