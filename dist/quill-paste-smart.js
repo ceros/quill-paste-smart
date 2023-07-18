@@ -1,3 +1,2203 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t(require("quill")):"function"==typeof define&&define.amd?define(["quill"],t):"object"==typeof exports?exports.QuillPasteSmart=t(require("quill")):e.QuillPasteSmart=t(e.Quill)}(window,(function(e){return function(e){var t={};function n(o){if(t[o])return t[o].exports;var r=t[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,n),r.l=!0,r.exports}return n.m=e,n.c=t,n.d=function(e,t,o){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:o})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var r in e)n.d(o,r,function(t){return e[t]}.bind(null,r));return o},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=2)}([function(e,t,n){
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("quill"));
+	else if(typeof define === 'function' && define.amd)
+		define(["quill"], factory);
+	else if(typeof exports === 'object')
+		exports["QuillPasteSmart"] = factory(require("quill"));
+	else
+		root["QuillPasteSmart"] = factory(root["Quill"]);
+})(window, function(__WEBPACK_EXTERNAL_MODULE__1__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /*! @license DOMPurify 2.4.7 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.4.7/LICENSE */
-e.exports=function(){"use strict";function e(t){return(e="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(t)}function t(e,n){return(t=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,n)}function n(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(e){return!1}}function o(e,r,i){return(o=n()?Reflect.construct:function(e,n,o){var r=[null];r.push.apply(r,n);var i=new(Function.bind.apply(e,r));return o&&t(i,o.prototype),i}).apply(null,arguments)}function r(e){return function(e){if(Array.isArray(e))return i(e)}(e)||function(e){if("undefined"!=typeof Symbol&&null!=e[Symbol.iterator]||null!=e["@@iterator"])return Array.from(e)}(e)||function(e,t){if(e){if("string"==typeof e)return i(e,t);var n=Object.prototype.toString.call(e).slice(8,-1);return"Object"===n&&e.constructor&&(n=e.constructor.name),"Map"===n||"Set"===n?Array.from(e):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?i(e,t):void 0}}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}()}function i(e,t){(null==t||t>e.length)&&(t=e.length);for(var n=0,o=new Array(t);n<t;n++)o[n]=e[n];return o}var a=Object.hasOwnProperty,l=Object.setPrototypeOf,c=Object.isFrozen,u=Object.getPrototypeOf,s=Object.getOwnPropertyDescriptor,f=Object.freeze,p=Object.seal,d=Object.create,m="undefined"!=typeof Reflect&&Reflect,h=m.apply,b=m.construct;h||(h=function(e,t,n){return e.apply(t,n)}),f||(f=function(e){return e}),p||(p=function(e){return e}),b||(b=function(e,t){return o(e,r(t))});var y,g=D(Array.prototype.forEach),v=D(Array.prototype.pop),A=D(Array.prototype.push),T=D(String.prototype.toLowerCase),L=D(String.prototype.toString),E=D(String.prototype.match),S=D(String.prototype.replace),O=D(String.prototype.indexOf),w=D(String.prototype.trim),k=D(RegExp.prototype.test),_=(y=TypeError,function(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];return b(y,t)});function D(e){return function(t){for(var n=arguments.length,o=new Array(n>1?n-1:0),r=1;r<n;r++)o[r-1]=arguments[r];return h(e,t,o)}}function N(e,t,n){var o;n=null!==(o=n)&&void 0!==o?o:T,l&&l(e,null);for(var r=t.length;r--;){var i=t[r];if("string"==typeof i){var a=n(i);a!==i&&(c(t)||(t[r]=a),i=a)}e[i]=!0}return e}function x(e){var t,n=d(null);for(t in e)!0===h(a,e,[t])&&(n[t]=e[t]);return n}function R(e,t){for(;null!==e;){var n=s(e,t);if(n){if(n.get)return D(n.get);if("function"==typeof n.value)return D(n.value)}e=u(e)}return function(e){return console.warn("fallback value for",e),null}}var M=f(["a","abbr","acronym","address","area","article","aside","audio","b","bdi","bdo","big","blink","blockquote","body","br","button","canvas","caption","center","cite","code","col","colgroup","content","data","datalist","dd","decorator","del","details","dfn","dialog","dir","div","dl","dt","element","em","fieldset","figcaption","figure","font","footer","form","h1","h2","h3","h4","h5","h6","head","header","hgroup","hr","html","i","img","input","ins","kbd","label","legend","li","main","map","mark","marquee","menu","menuitem","meter","nav","nobr","ol","optgroup","option","output","p","picture","pre","progress","q","rp","rt","ruby","s","samp","section","select","shadow","small","source","spacer","span","strike","strong","style","sub","summary","sup","table","tbody","td","template","textarea","tfoot","th","thead","time","tr","track","tt","u","ul","var","video","wbr"]),C=f(["svg","a","altglyph","altglyphdef","altglyphitem","animatecolor","animatemotion","animatetransform","circle","clippath","defs","desc","ellipse","filter","font","g","glyph","glyphref","hkern","image","line","lineargradient","marker","mask","metadata","mpath","path","pattern","polygon","polyline","radialgradient","rect","stop","style","switch","symbol","text","textpath","title","tref","tspan","view","vkern"]),z=f(["feBlend","feColorMatrix","feComponentTransfer","feComposite","feConvolveMatrix","feDiffuseLighting","feDisplacementMap","feDistantLight","feFlood","feFuncA","feFuncB","feFuncG","feFuncR","feGaussianBlur","feImage","feMerge","feMergeNode","feMorphology","feOffset","fePointLight","feSpecularLighting","feSpotLight","feTile","feTurbulence"]),W=f(["animate","color-profile","cursor","discard","fedropshadow","font-face","font-face-format","font-face-name","font-face-src","font-face-uri","foreignobject","hatch","hatchpath","mesh","meshgradient","meshpatch","meshrow","missing-glyph","script","set","solidcolor","unknown","use"]),H=f(["math","menclose","merror","mfenced","mfrac","mglyph","mi","mlabeledtr","mmultiscripts","mn","mo","mover","mpadded","mphantom","mroot","mrow","ms","mspace","msqrt","mstyle","msub","msup","msubsup","mtable","mtd","mtext","mtr","munder","munderover"]),I=f(["maction","maligngroup","malignmark","mlongdiv","mscarries","mscarry","msgroup","mstack","msline","msrow","semantics","annotation","annotation-xml","mprescripts","none"]),j=f(["#text"]),P=f(["accept","action","align","alt","autocapitalize","autocomplete","autopictureinpicture","autoplay","background","bgcolor","border","capture","cellpadding","cellspacing","checked","cite","class","clear","color","cols","colspan","controls","controlslist","coords","crossorigin","datetime","decoding","default","dir","disabled","disablepictureinpicture","disableremoteplayback","download","draggable","enctype","enterkeyhint","face","for","headers","height","hidden","high","href","hreflang","id","inputmode","integrity","ismap","kind","label","lang","list","loading","loop","low","max","maxlength","media","method","min","minlength","multiple","muted","name","nonce","noshade","novalidate","nowrap","open","optimum","pattern","placeholder","playsinline","poster","preload","pubdate","radiogroup","readonly","rel","required","rev","reversed","role","rows","rowspan","spellcheck","scope","selected","shape","size","sizes","span","srclang","start","src","srcset","step","style","summary","tabindex","title","translate","type","usemap","valign","value","width","xmlns","slot"]),G=f(["accent-height","accumulate","additive","alignment-baseline","ascent","attributename","attributetype","azimuth","basefrequency","baseline-shift","begin","bias","by","class","clip","clippathunits","clip-path","clip-rule","color","color-interpolation","color-interpolation-filters","color-profile","color-rendering","cx","cy","d","dx","dy","diffuseconstant","direction","display","divisor","dur","edgemode","elevation","end","fill","fill-opacity","fill-rule","filter","filterunits","flood-color","flood-opacity","font-family","font-size","font-size-adjust","font-stretch","font-style","font-variant","font-weight","fx","fy","g1","g2","glyph-name","glyphref","gradientunits","gradienttransform","height","href","id","image-rendering","in","in2","k","k1","k2","k3","k4","kerning","keypoints","keysplines","keytimes","lang","lengthadjust","letter-spacing","kernelmatrix","kernelunitlength","lighting-color","local","marker-end","marker-mid","marker-start","markerheight","markerunits","markerwidth","maskcontentunits","maskunits","max","mask","media","method","mode","min","name","numoctaves","offset","operator","opacity","order","orient","orientation","origin","overflow","paint-order","path","pathlength","patterncontentunits","patterntransform","patternunits","points","preservealpha","preserveaspectratio","primitiveunits","r","rx","ry","radius","refx","refy","repeatcount","repeatdur","restart","result","rotate","scale","seed","shape-rendering","specularconstant","specularexponent","spreadmethod","startoffset","stddeviation","stitchtiles","stop-color","stop-opacity","stroke-dasharray","stroke-dashoffset","stroke-linecap","stroke-linejoin","stroke-miterlimit","stroke-opacity","stroke","stroke-width","style","surfacescale","systemlanguage","tabindex","targetx","targety","transform","transform-origin","text-anchor","text-decoration","text-rendering","textlength","type","u1","u2","unicode","values","viewbox","visibility","version","vert-adv-y","vert-origin-x","vert-origin-y","width","word-spacing","wrap","writing-mode","xchannelselector","ychannelselector","x","x1","x2","xmlns","y","y1","y2","z","zoomandpan"]),U=f(["accent","accentunder","align","bevelled","close","columnsalign","columnlines","columnspan","denomalign","depth","dir","display","displaystyle","encoding","fence","frame","height","href","id","largeop","length","linethickness","lspace","lquote","mathbackground","mathcolor","mathsize","mathvariant","maxsize","minsize","movablelimits","notation","numalign","open","rowalign","rowlines","rowspacing","rowspan","rspace","rquote","scriptlevel","scriptminsize","scriptsizemultiplier","selection","separator","separators","stretchy","subscriptshift","supscriptshift","symmetric","voffset","width","xmlns"]),F=f(["xlink:href","xml:id","xlink:title","xml:space","xmlns:xlink"]),B=p(/\{\{[\w\W]*|[\w\W]*\}\}/gm),q=p(/<%[\w\W]*|[\w\W]*%>/gm),Z=p(/\${[\w\W]*}/gm),Y=p(/^data-[\-\w.\u00B7-\uFFFF]/),V=p(/^aria-[\-\w]+$/),$=p(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i),K=p(/^(?:\w+script|data):/i),Q=p(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g),X=p(/^html$/i),J=function(){return"undefined"==typeof window?null:window},ee=function(t,n){if("object"!==e(t)||"function"!=typeof t.createPolicy)return null;var o=null;n.currentScript&&n.currentScript.hasAttribute("data-tt-policy-suffix")&&(o=n.currentScript.getAttribute("data-tt-policy-suffix"));var r="dompurify"+(o?"#"+o:"");try{return t.createPolicy(r,{createHTML:function(e){return e},createScriptURL:function(e){return e}})}catch(e){return console.warn("TrustedTypes policy "+r+" could not be created."),null}};return function t(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:J(),o=function(e){return t(e)};if(o.version="2.4.7",o.removed=[],!n||!n.document||9!==n.document.nodeType)return o.isSupported=!1,o;var i=n.document,a=n.document,l=n.DocumentFragment,c=n.HTMLTemplateElement,u=n.Node,s=n.Element,p=n.NodeFilter,d=n.NamedNodeMap,m=void 0===d?n.NamedNodeMap||n.MozNamedAttrMap:d,h=n.HTMLFormElement,b=n.DOMParser,y=n.trustedTypes,D=s.prototype,te=R(D,"cloneNode"),ne=R(D,"nextSibling"),oe=R(D,"childNodes"),re=R(D,"parentNode");if("function"==typeof c){var ie=a.createElement("template");ie.content&&ie.content.ownerDocument&&(a=ie.content.ownerDocument)}var ae=ee(y,i),le=ae?ae.createHTML(""):"",ce=a,ue=ce.implementation,se=ce.createNodeIterator,fe=ce.createDocumentFragment,pe=ce.getElementsByTagName,de=i.importNode,me={};try{me=x(a).documentMode?a.documentMode:{}}catch(e){}var he={};o.isSupported="function"==typeof re&&ue&&void 0!==ue.createHTMLDocument&&9!==me;var be,ye,ge=B,ve=q,Ae=Z,Te=Y,Le=V,Ee=K,Se=Q,Oe=$,we=null,ke=N({},[].concat(r(M),r(C),r(z),r(H),r(j))),_e=null,De=N({},[].concat(r(P),r(G),r(U),r(F))),Ne=Object.seal(Object.create(null,{tagNameCheck:{writable:!0,configurable:!1,enumerable:!0,value:null},attributeNameCheck:{writable:!0,configurable:!1,enumerable:!0,value:null},allowCustomizedBuiltInElements:{writable:!0,configurable:!1,enumerable:!0,value:!1}})),xe=null,Re=null,Me=!0,Ce=!0,ze=!1,We=!0,He=!1,Ie=!1,je=!1,Pe=!1,Ge=!1,Ue=!1,Fe=!1,Be=!0,qe=!1,Ze="user-content-",Ye=!0,Ve=!1,$e={},Ke=null,Qe=N({},["annotation-xml","audio","colgroup","desc","foreignobject","head","iframe","math","mi","mn","mo","ms","mtext","noembed","noframes","noscript","plaintext","script","style","svg","template","thead","title","video","xmp"]),Xe=null,Je=N({},["audio","video","img","source","image","track"]),et=null,tt=N({},["alt","class","for","id","label","name","pattern","placeholder","role","summary","title","value","style","xmlns"]),nt="http://www.w3.org/1998/Math/MathML",ot="http://www.w3.org/2000/svg",rt="http://www.w3.org/1999/xhtml",it=rt,at=!1,lt=null,ct=N({},[nt,ot,rt],L),ut=["application/xhtml+xml","text/html"],st="text/html",ft=null,pt=a.createElement("form"),dt=function(e){return e instanceof RegExp||e instanceof Function},mt=function(t){ft&&ft===t||(t&&"object"===e(t)||(t={}),t=x(t),be=be=-1===ut.indexOf(t.PARSER_MEDIA_TYPE)?st:t.PARSER_MEDIA_TYPE,ye="application/xhtml+xml"===be?L:T,we="ALLOWED_TAGS"in t?N({},t.ALLOWED_TAGS,ye):ke,_e="ALLOWED_ATTR"in t?N({},t.ALLOWED_ATTR,ye):De,lt="ALLOWED_NAMESPACES"in t?N({},t.ALLOWED_NAMESPACES,L):ct,et="ADD_URI_SAFE_ATTR"in t?N(x(tt),t.ADD_URI_SAFE_ATTR,ye):tt,Xe="ADD_DATA_URI_TAGS"in t?N(x(Je),t.ADD_DATA_URI_TAGS,ye):Je,Ke="FORBID_CONTENTS"in t?N({},t.FORBID_CONTENTS,ye):Qe,xe="FORBID_TAGS"in t?N({},t.FORBID_TAGS,ye):{},Re="FORBID_ATTR"in t?N({},t.FORBID_ATTR,ye):{},$e="USE_PROFILES"in t&&t.USE_PROFILES,Me=!1!==t.ALLOW_ARIA_ATTR,Ce=!1!==t.ALLOW_DATA_ATTR,ze=t.ALLOW_UNKNOWN_PROTOCOLS||!1,We=!1!==t.ALLOW_SELF_CLOSE_IN_ATTR,He=t.SAFE_FOR_TEMPLATES||!1,Ie=t.WHOLE_DOCUMENT||!1,Ge=t.RETURN_DOM||!1,Ue=t.RETURN_DOM_FRAGMENT||!1,Fe=t.RETURN_TRUSTED_TYPE||!1,Pe=t.FORCE_BODY||!1,Be=!1!==t.SANITIZE_DOM,qe=t.SANITIZE_NAMED_PROPS||!1,Ye=!1!==t.KEEP_CONTENT,Ve=t.IN_PLACE||!1,Oe=t.ALLOWED_URI_REGEXP||Oe,it=t.NAMESPACE||rt,Ne=t.CUSTOM_ELEMENT_HANDLING||{},t.CUSTOM_ELEMENT_HANDLING&&dt(t.CUSTOM_ELEMENT_HANDLING.tagNameCheck)&&(Ne.tagNameCheck=t.CUSTOM_ELEMENT_HANDLING.tagNameCheck),t.CUSTOM_ELEMENT_HANDLING&&dt(t.CUSTOM_ELEMENT_HANDLING.attributeNameCheck)&&(Ne.attributeNameCheck=t.CUSTOM_ELEMENT_HANDLING.attributeNameCheck),t.CUSTOM_ELEMENT_HANDLING&&"boolean"==typeof t.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements&&(Ne.allowCustomizedBuiltInElements=t.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements),He&&(Ce=!1),Ue&&(Ge=!0),$e&&(we=N({},r(j)),_e=[],!0===$e.html&&(N(we,M),N(_e,P)),!0===$e.svg&&(N(we,C),N(_e,G),N(_e,F)),!0===$e.svgFilters&&(N(we,z),N(_e,G),N(_e,F)),!0===$e.mathMl&&(N(we,H),N(_e,U),N(_e,F))),t.ADD_TAGS&&(we===ke&&(we=x(we)),N(we,t.ADD_TAGS,ye)),t.ADD_ATTR&&(_e===De&&(_e=x(_e)),N(_e,t.ADD_ATTR,ye)),t.ADD_URI_SAFE_ATTR&&N(et,t.ADD_URI_SAFE_ATTR,ye),t.FORBID_CONTENTS&&(Ke===Qe&&(Ke=x(Ke)),N(Ke,t.FORBID_CONTENTS,ye)),Ye&&(we["#text"]=!0),Ie&&N(we,["html","head","body"]),we.table&&(N(we,["tbody"]),delete xe.tbody),f&&f(t),ft=t)},ht=N({},["mi","mo","mn","ms","mtext"]),bt=N({},["foreignobject","desc","title","annotation-xml"]),yt=N({},["title","style","font","a","script"]),gt=N({},C);N(gt,z),N(gt,W);var vt=N({},H);N(vt,I);var At=function(e){var t=re(e);t&&t.tagName||(t={namespaceURI:it,tagName:"template"});var n=T(e.tagName),o=T(t.tagName);return!!lt[e.namespaceURI]&&(e.namespaceURI===ot?t.namespaceURI===rt?"svg"===n:t.namespaceURI===nt?"svg"===n&&("annotation-xml"===o||ht[o]):Boolean(gt[n]):e.namespaceURI===nt?t.namespaceURI===rt?"math"===n:t.namespaceURI===ot?"math"===n&&bt[o]:Boolean(vt[n]):e.namespaceURI===rt?!(t.namespaceURI===ot&&!bt[o])&&!(t.namespaceURI===nt&&!ht[o])&&!vt[n]&&(yt[n]||!gt[n]):!("application/xhtml+xml"!==be||!lt[e.namespaceURI]))},Tt=function(e){A(o.removed,{element:e});try{e.parentNode.removeChild(e)}catch(t){try{e.outerHTML=le}catch(t){e.remove()}}},Lt=function(e,t){try{A(o.removed,{attribute:t.getAttributeNode(e),from:t})}catch(e){A(o.removed,{attribute:null,from:t})}if(t.removeAttribute(e),"is"===e&&!_e[e])if(Ge||Ue)try{Tt(t)}catch(e){}else try{t.setAttribute(e,"")}catch(e){}},Et=function(e){var t,n;if(Pe)e="<remove></remove>"+e;else{var o=E(e,/^[\r\n\t ]+/);n=o&&o[0]}"application/xhtml+xml"===be&&it===rt&&(e='<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>'+e+"</body></html>");var r=ae?ae.createHTML(e):e;if(it===rt)try{t=(new b).parseFromString(r,be)}catch(e){}if(!t||!t.documentElement){t=ue.createDocument(it,"template",null);try{t.documentElement.innerHTML=at?le:r}catch(e){}}var i=t.body||t.documentElement;return e&&n&&i.insertBefore(a.createTextNode(n),i.childNodes[0]||null),it===rt?pe.call(t,Ie?"html":"body")[0]:Ie?t.documentElement:i},St=function(e){return se.call(e.ownerDocument||e,e,p.SHOW_ELEMENT|p.SHOW_COMMENT|p.SHOW_TEXT,null,!1)},Ot=function(e){return e instanceof h&&("string"!=typeof e.nodeName||"string"!=typeof e.textContent||"function"!=typeof e.removeChild||!(e.attributes instanceof m)||"function"!=typeof e.removeAttribute||"function"!=typeof e.setAttribute||"string"!=typeof e.namespaceURI||"function"!=typeof e.insertBefore||"function"!=typeof e.hasChildNodes)},wt=function(t){return"object"===e(u)?t instanceof u:t&&"object"===e(t)&&"number"==typeof t.nodeType&&"string"==typeof t.nodeName},kt=function(e,t,n){he[e]&&g(he[e],(function(e){e.call(o,t,n,ft)}))},_t=function(e){var t;if(kt("beforeSanitizeElements",e,null),Ot(e))return Tt(e),!0;if(k(/[\u0080-\uFFFF]/,e.nodeName))return Tt(e),!0;var n=ye(e.nodeName);if(kt("uponSanitizeElement",e,{tagName:n,allowedTags:we}),e.hasChildNodes()&&!wt(e.firstElementChild)&&(!wt(e.content)||!wt(e.content.firstElementChild))&&k(/<[/\w]/g,e.innerHTML)&&k(/<[/\w]/g,e.textContent))return Tt(e),!0;if("select"===n&&k(/<template/i,e.innerHTML))return Tt(e),!0;if(!we[n]||xe[n]){if(!xe[n]&&Nt(n)){if(Ne.tagNameCheck instanceof RegExp&&k(Ne.tagNameCheck,n))return!1;if(Ne.tagNameCheck instanceof Function&&Ne.tagNameCheck(n))return!1}if(Ye&&!Ke[n]){var r=re(e)||e.parentNode,i=oe(e)||e.childNodes;if(i&&r)for(var a=i.length-1;a>=0;--a)r.insertBefore(te(i[a],!0),ne(e))}return Tt(e),!0}return e instanceof s&&!At(e)?(Tt(e),!0):"noscript"!==n&&"noembed"!==n&&"noframes"!==n||!k(/<\/no(script|embed|frames)/i,e.innerHTML)?(He&&3===e.nodeType&&(t=e.textContent,t=S(t,ge," "),t=S(t,ve," "),t=S(t,Ae," "),e.textContent!==t&&(A(o.removed,{element:e.cloneNode()}),e.textContent=t)),kt("afterSanitizeElements",e,null),!1):(Tt(e),!0)},Dt=function(e,t,n){if(Be&&("id"===t||"name"===t)&&(n in a||n in pt))return!1;if(Ce&&!Re[t]&&k(Te,t));else if(Me&&k(Le,t));else if(!_e[t]||Re[t]){if(!(Nt(e)&&(Ne.tagNameCheck instanceof RegExp&&k(Ne.tagNameCheck,e)||Ne.tagNameCheck instanceof Function&&Ne.tagNameCheck(e))&&(Ne.attributeNameCheck instanceof RegExp&&k(Ne.attributeNameCheck,t)||Ne.attributeNameCheck instanceof Function&&Ne.attributeNameCheck(t))||"is"===t&&Ne.allowCustomizedBuiltInElements&&(Ne.tagNameCheck instanceof RegExp&&k(Ne.tagNameCheck,n)||Ne.tagNameCheck instanceof Function&&Ne.tagNameCheck(n))))return!1}else if(et[t]);else if(k(Oe,S(n,Se,"")));else if("src"!==t&&"xlink:href"!==t&&"href"!==t||"script"===e||0!==O(n,"data:")||!Xe[e])if(ze&&!k(Ee,S(n,Se,"")));else if(n)return!1;return!0},Nt=function(e){return e.indexOf("-")>0},xt=function(t){var n,r,i,a;kt("beforeSanitizeAttributes",t,null);var l=t.attributes;if(l){var c={attrName:"",attrValue:"",keepAttr:!0,allowedAttributes:_e};for(a=l.length;a--;){var u=n=l[a],s=u.name,f=u.namespaceURI;if(r="value"===s?n.value:w(n.value),i=ye(s),c.attrName=i,c.attrValue=r,c.keepAttr=!0,c.forceKeepAttr=void 0,kt("uponSanitizeAttribute",t,c),r=c.attrValue,!c.forceKeepAttr&&(Lt(s,t),c.keepAttr))if(We||!k(/\/>/i,r)){He&&(r=S(r,ge," "),r=S(r,ve," "),r=S(r,Ae," "));var p=ye(t.nodeName);if(Dt(p,i,r)){if(!qe||"id"!==i&&"name"!==i||(Lt(s,t),r=Ze+r),ae&&"object"===e(y)&&"function"==typeof y.getAttributeType)if(f);else switch(y.getAttributeType(p,i)){case"TrustedHTML":r=ae.createHTML(r);break;case"TrustedScriptURL":r=ae.createScriptURL(r)}try{f?t.setAttributeNS(f,s,r):t.setAttribute(s,r),v(o.removed)}catch(e){}}}else Lt(s,t)}kt("afterSanitizeAttributes",t,null)}},Rt=function e(t){var n,o=St(t);for(kt("beforeSanitizeShadowDOM",t,null);n=o.nextNode();)kt("uponSanitizeShadowNode",n,null),_t(n)||(n.content instanceof l&&e(n.content),xt(n));kt("afterSanitizeShadowDOM",t,null)};return o.sanitize=function(t){var r,a,c,s,f,p=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};if((at=!t)&&(t="\x3c!--\x3e"),"string"!=typeof t&&!wt(t)){if("function"!=typeof t.toString)throw _("toString is not a function");if("string"!=typeof(t=t.toString()))throw _("dirty is not a string, aborting")}if(!o.isSupported){if("object"===e(n.toStaticHTML)||"function"==typeof n.toStaticHTML){if("string"==typeof t)return n.toStaticHTML(t);if(wt(t))return n.toStaticHTML(t.outerHTML)}return t}if(je||mt(p),o.removed=[],"string"==typeof t&&(Ve=!1),Ve){if(t.nodeName){var d=ye(t.nodeName);if(!we[d]||xe[d])throw _("root node is forbidden and cannot be sanitized in-place")}}else if(t instanceof u)1===(a=(r=Et("\x3c!----\x3e")).ownerDocument.importNode(t,!0)).nodeType&&"BODY"===a.nodeName||"HTML"===a.nodeName?r=a:r.appendChild(a);else{if(!Ge&&!He&&!Ie&&-1===t.indexOf("<"))return ae&&Fe?ae.createHTML(t):t;if(!(r=Et(t)))return Ge?null:Fe?le:""}r&&Pe&&Tt(r.firstChild);for(var m=St(Ve?t:r);c=m.nextNode();)3===c.nodeType&&c===s||_t(c)||(c.content instanceof l&&Rt(c.content),xt(c),s=c);if(s=null,Ve)return t;if(Ge){if(Ue)for(f=fe.call(r.ownerDocument);r.firstChild;)f.appendChild(r.firstChild);else f=r;return(_e.shadowroot||_e.shadowrootmod)&&(f=de.call(i,f,!0)),f}var h=Ie?r.outerHTML:r.innerHTML;return Ie&&we["!doctype"]&&r.ownerDocument&&r.ownerDocument.doctype&&r.ownerDocument.doctype.name&&k(X,r.ownerDocument.doctype.name)&&(h="<!DOCTYPE "+r.ownerDocument.doctype.name+">\n"+h),He&&(h=S(h,ge," "),h=S(h,ve," "),h=S(h,Ae," ")),ae&&Fe?ae.createHTML(h):h},o.setConfig=function(e){mt(e),je=!0},o.clearConfig=function(){ft=null,je=!1},o.isValidAttribute=function(e,t,n){ft||mt({});var o=ye(e),r=ye(t);return Dt(o,r,n)},o.addHook=function(e,t){"function"==typeof t&&(he[e]=he[e]||[],A(he[e],t))},o.removeHook=function(e){if(he[e])return v(he[e])},o.removeHooks=function(e){he[e]&&(he[e]=[])},o.removeAllHooks=function(){he={}},o}()}()},function(t,n){t.exports=e},function(e,t,n){"use strict";n.r(t);var o=n(1),r=n.n(o),i=n(0),a=n.n(i);function l(e){return(l="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function c(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);t&&(o=o.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),n.push.apply(n,o)}return n}function u(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{};t%2?c(Object(n),!0).forEach((function(t){s(e,t,n[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):c(Object(n)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(n,t))}))}return e}function s(e,t,n){return(t=p(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function f(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,p(o.key),o)}}function p(e){var t=function(e,t){if("object"!==l(e)||null===e)return e;var n=e[Symbol.toPrimitive];if(void 0!==n){var o=n.call(e,t||"default");if("object"!==l(o))return o;throw new TypeError("@@toPrimitive must return a primitive value.")}return("string"===t?String:Number)(e)}(e,"string");return"symbol"===l(t)?t:String(t)}function d(e,t){return(d=Object.setPrototypeOf?Object.setPrototypeOf.bind():function(e,t){return e.__proto__=t,e})(e,t)}function m(e){var t=function(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(e){return!1}}();return function(){var n,o=b(e);if(t){var r=b(this).constructor;n=Reflect.construct(o,arguments,r)}else n=o.apply(this,arguments);return h(this,n)}}function h(e,t){if(t&&("object"===l(t)||"function"==typeof t))return t;if(void 0!==t)throw new TypeError("Derived constructors may only return object or undefined");return function(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}(e)}function b(e){return(b=Object.setPrototypeOf?Object.getPrototypeOf.bind():function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var y=r.a.import("modules/clipboard"),g=r.a.import("delta"),v=function(e){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),Object.defineProperty(e,"prototype",{writable:!1}),t&&d(e,t)}(l,e);var t,n,o,i=m(l);function l(e,t){var n;return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,l),(n=i.call(this,e,t)).allowed=t.allowed,n.keepSelection=t.keepSelection,n.substituteBlockElements=t.substituteBlockElements,n.magicPasteLinks=t.magicPasteLinks,n.hooks=t.hooks,n}return t=l,(n=[{key:"onPaste",value:function(e){var t=this;e.preventDefault();var n,o,i,l,c=this.quill.getSelection();e.clipboardData&&e.clipboardData.getData||!window.clipboardData||!window.clipboardData.getData?(n=e.clipboardData.getData("text/plain"),o=e.clipboardData.getData("text/html"),i=null===(l=e.clipboardData)||void 0===l||null===(l=l.items)||void 0===l?void 0:l[0]):n=window.clipboardData.getData("Text");var u,s,f,p,d,m,h,b,y,v=(new g).retain(c.index).delete(c.length),A=this.getDOMPurifyOptions(),T=n;if(o)"function"==typeof(null===(u=this.hooks)||void 0===u?void 0:u.beforeSanitizeElements)&&a.a.addHook("beforeSanitizeElements",this.hooks.beforeSanitizeElements),"function"==typeof(null===(s=this.hooks)||void 0===s?void 0:s.uponSanitizeElement)&&a.a.addHook("uponSanitizeElement",this.hooks.uponSanitizeElement),"function"==typeof(null===(f=this.hooks)||void 0===f?void 0:f.afterSanitizeElements)&&a.a.addHook("afterSanitizeElements",this.hooks.afterSanitizeElements),"function"==typeof(null===(p=this.hooks)||void 0===p?void 0:p.beforeSanitizeAttributes)&&a.a.addHook("beforeSanitizeAttributes",this.hooks.beforeSanitizeAttributes),"function"==typeof(null===(d=this.hooks)||void 0===d?void 0:d.uponSanitizeAttribute)&&a.a.addHook("uponSanitizeAttribute",this.hooks.uponSanitizeAttribute),"function"==typeof(null===(m=this.hooks)||void 0===m?void 0:m.afterSanitizeAttributes)&&a.a.addHook("afterSanitizeAttributes",this.hooks.afterSanitizeAttributes),"function"==typeof(null===(h=this.hooks)||void 0===h?void 0:h.beforeSanitizeShadowDOM)&&a.a.addHook("beforeSanitizeShadowDOM",this.hooks.beforeSanitizeShadowDOM),"function"==typeof(null===(b=this.hooks)||void 0===b?void 0:b.uponSanitizeShadowNode)&&a.a.addHook("uponSanitizeShadowNode",this.hooks.uponSanitizeShadowNode),"function"==typeof(null===(y=this.hooks)||void 0===y?void 0:y.afterSanitizeShadowDOM)&&a.a.addHook("afterSanitizeShadowDOM",this.hooks.afterSanitizeShadowDOM),T=!1!==this.substituteBlockElements?(o=this.substitute(o,A)).innerHTML:a.a.sanitize(o,A),v=v.concat(this.convert(T));else if(A.ALLOWED_TAGS.includes("a")&&this.isURL(n)&&c.length>0&&this.magicPasteLinks){T=this.quill.getText(c.index,c.length);var L=/^https?:\/\//i.test(n)?n:"https://".concat(n);v=v.insert(T,{link:L})}else if(A.ALLOWED_TAGS.includes("img")&&i&&"file"===i.kind&&i.type.match(/^image\//i)){var E=i.getAsFile(),S=new FileReader;S.onload=function(e){t.quill.insertEmbed(c.index,"image",e.target.result),t.keepSelection||t.quill.setSelection(c.index+1)},S.readAsDataURL(E)}else v=v.insert(T);this.quill.updateContents(v,r.a.sources.USER),v=this.convert(T),this.keepSelection?this.quill.setSelection(c.index,v.length(),r.a.sources.SILENT):this.quill.setSelection(c.index+v.length(),r.a.sources.SILENT),this.quill.scrollIntoView(),a.a.removeAllHooks()}},{key:"getDOMPurifyOptions",value:function(){var e,t,n={};if(null!==(e=this.allowed)&&void 0!==e&&e.tags&&(n.ALLOWED_TAGS=this.allowed.tags),null!==(t=this.allowed)&&void 0!==t&&t.attributes&&(n.ALLOWED_ATTR=this.allowed.attributes),void 0===n.ALLOWED_TAGS||void 0===n.ALLOWED_ATTR){var o,r=!1;void 0===n.ALLOWED_TAGS&&(r=!0,n.ALLOWED_TAGS=["p","br","span"]);var i=!1;void 0===n.ALLOWED_ATTR&&(i=!0,n.ALLOWED_ATTR=["class"]);var a=this.quill.getModule("toolbar");null==a||null===(o=a.controls)||void 0===o||o.forEach((function(e){switch(e[0]){case"bold":r&&(n.ALLOWED_TAGS.push("b"),n.ALLOWED_TAGS.push("strong"));break;case"italic":r&&(n.ALLOWED_TAGS.push("i"),n.ALLOWED_TAGS.push("em"));break;case"underline":r&&n.ALLOWED_TAGS.push("u");break;case"strike":r&&n.ALLOWED_TAGS.push("s");break;case"color":case"background":i&&n.ALLOWED_ATTR.push("style");break;case"script":r&&("super"===e[1].value?n.ALLOWED_TAGS.push("sup"):"sub"===e[1].value&&n.ALLOWED_TAGS.push("sub"));break;case"header":if(r){var t=function(e){"1"===e?n.ALLOWED_TAGS.push("h1"):"2"===e?n.ALLOWED_TAGS.push("h2"):"3"===e?n.ALLOWED_TAGS.push("h3"):"4"===e?n.ALLOWED_TAGS.push("h4"):"5"===e?n.ALLOWED_TAGS.push("h5"):"6"===e&&n.ALLOWED_TAGS.push("h6")};e[1].value?t(e[1].value):e[1].options&&e[1].options.length&&[].forEach.call(e[1].options,(function(e){e.value&&t(e.value)}))}break;case"code-block":r&&n.ALLOWED_TAGS.push("pre"),i&&n.ALLOWED_ATTR.push("spellcheck");break;case"list":r&&("ordered"===e[1].value?n.ALLOWED_TAGS.push("ol"):"bullet"===e[1].value&&n.ALLOWED_TAGS.push("ul"),n.ALLOWED_TAGS.push("li"));break;case"link":r&&n.ALLOWED_TAGS.push("a"),i&&(n.ALLOWED_ATTR.push("href"),n.ALLOWED_ATTR.push("target"),n.ALLOWED_ATTR.push("rel"));break;case"image":r&&n.ALLOWED_TAGS.push("img"),i&&(n.ALLOWED_ATTR.push("src"),n.ALLOWED_ATTR.push("title"),n.ALLOWED_ATTR.push("alt"));break;case"video":r&&n.ALLOWED_TAGS.push("iframe"),i&&(n.ALLOWED_ATTR.push("frameborder"),n.ALLOWED_ATTR.push("allowfullscreen"),n.ALLOWED_ATTR.push("src"));break;case"blockquote":r&&n.ALLOWED_TAGS.push(e[0])}}))}return n}},{key:"substitute",value:function(e,t){var n,o=["h1","h2","h3","h4","h5","h6"],r=["p","div","section","article","fieldset","address","aside","blockquote","canvas","dl","figcaption","figure","footer","form","header","main","nav","noscript","ol","pre","table","tfoot","ul","video"],i=["li","dt","dd","hr"];a.a.addHook("uponSanitizeElement",(function(e,a,l){for(var c=0;!n&&c<3;)t.ALLOWED_TAGS.includes(r[c])&&(n=r[c]),++c;if(n&&e.tagName&&!t.ALLOWED_TAGS.includes(e.tagName.toLowerCase())){var u=e.tagName.toLowerCase();o.includes(u)?e.innerHTML="<".concat(n,"><b>").concat(e.innerHTML,"</b></").concat(n,">"):r.includes(u)?e.innerHTML="<".concat(n,">").concat(e.innerHTML,"</").concat(n,">"):i.includes(u)&&(e.innerHTML="".concat(e.innerHTML,"<br>"))}})),e=a.a.sanitize(e,u(u({},t),{RETURN_DOM:!0,WHOLE_DOCUMENT:!1})),a.a.removeAllHooks();var l,c=0,s=document.createElement("body");return function e(t,n){for(n(t,c),t=c<=1?t.firstChild:void 0;t;)++c,e(t,n),t=t.nextSibling;--c}(e,(function(e,t){if(1===t)if(e.tagName&&r.includes(e.tagName.toLowerCase())){l&&(l=void 0);var o=document.createElement(e.tagName.toLowerCase());o.innerHTML=e.innerHTML,s.appendChild(o)}else if(void 0===l&&(l=document.createElement(n),s.appendChild(l)),e.tagName){var i=document.createElement(e.tagName.toLowerCase()),a=e.attributes;a.length&&Array.from(a).forEach((function(e){return i.setAttribute(e.nodeName,e.value)})),e.innerHTML&&(i.innerHTML=e.innerHTML),l.appendChild(i)}else{var c=document.createTextNode(e.textContent);l.appendChild(c)}})),s}},{key:"isURL",value:function(e){return!!/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi.test(e)}}])&&f(t.prototype,n),o&&f(t,o),Object.defineProperty(t,"prototype",{writable:!1}),l}(y);r.a.register("modules/clipboard",v,!0),t.default=v}])}));
+
+(function (global, factory) {
+   true ? module.exports = factory() :
+  undefined;
+})(this, (function () { 'use strict';
+
+  function _typeof(obj) {
+    "@babel/helpers - typeof";
+
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+      return typeof obj;
+    } : function (obj) {
+      return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+  }
+
+  function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+      o.__proto__ = p;
+      return o;
+    };
+
+    return _setPrototypeOf(o, p);
+  }
+
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function _construct(Parent, args, Class) {
+    if (_isNativeReflectConstruct()) {
+      _construct = Reflect.construct;
+    } else {
+      _construct = function _construct(Parent, args, Class) {
+        var a = [null];
+        a.push.apply(a, args);
+        var Constructor = Function.bind.apply(Parent, a);
+        var instance = new Constructor();
+        if (Class) _setPrototypeOf(instance, Class.prototype);
+        return instance;
+      };
+    }
+
+    return _construct.apply(null, arguments);
+  }
+
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+  }
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+  }
+
+  function _iterableToArray(iter) {
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+  }
+
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  var hasOwnProperty = Object.hasOwnProperty,
+      setPrototypeOf = Object.setPrototypeOf,
+      isFrozen = Object.isFrozen,
+      getPrototypeOf = Object.getPrototypeOf,
+      getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+  var freeze = Object.freeze,
+      seal = Object.seal,
+      create = Object.create; // eslint-disable-line import/no-mutable-exports
+
+  var _ref = typeof Reflect !== 'undefined' && Reflect,
+      apply = _ref.apply,
+      construct = _ref.construct;
+
+  if (!apply) {
+    apply = function apply(fun, thisValue, args) {
+      return fun.apply(thisValue, args);
+    };
+  }
+
+  if (!freeze) {
+    freeze = function freeze(x) {
+      return x;
+    };
+  }
+
+  if (!seal) {
+    seal = function seal(x) {
+      return x;
+    };
+  }
+
+  if (!construct) {
+    construct = function construct(Func, args) {
+      return _construct(Func, _toConsumableArray(args));
+    };
+  }
+
+  var arrayForEach = unapply(Array.prototype.forEach);
+  var arrayPop = unapply(Array.prototype.pop);
+  var arrayPush = unapply(Array.prototype.push);
+  var stringToLowerCase = unapply(String.prototype.toLowerCase);
+  var stringToString = unapply(String.prototype.toString);
+  var stringMatch = unapply(String.prototype.match);
+  var stringReplace = unapply(String.prototype.replace);
+  var stringIndexOf = unapply(String.prototype.indexOf);
+  var stringTrim = unapply(String.prototype.trim);
+  var regExpTest = unapply(RegExp.prototype.test);
+  var typeErrorCreate = unconstruct(TypeError);
+  function unapply(func) {
+    return function (thisArg) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      return apply(func, thisArg, args);
+    };
+  }
+  function unconstruct(func) {
+    return function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return construct(func, args);
+    };
+  }
+  /* Add properties to a lookup table */
+
+  function addToSet(set, array, transformCaseFunc) {
+    var _transformCaseFunc;
+
+    transformCaseFunc = (_transformCaseFunc = transformCaseFunc) !== null && _transformCaseFunc !== void 0 ? _transformCaseFunc : stringToLowerCase;
+
+    if (setPrototypeOf) {
+      // Make 'in' and truthy checks like Boolean(set.constructor)
+      // independent of any properties defined on Object.prototype.
+      // Prevent prototype setters from intercepting set as a this value.
+      setPrototypeOf(set, null);
+    }
+
+    var l = array.length;
+
+    while (l--) {
+      var element = array[l];
+
+      if (typeof element === 'string') {
+        var lcElement = transformCaseFunc(element);
+
+        if (lcElement !== element) {
+          // Config presets (e.g. tags.js, attrs.js) are immutable.
+          if (!isFrozen(array)) {
+            array[l] = lcElement;
+          }
+
+          element = lcElement;
+        }
+      }
+
+      set[element] = true;
+    }
+
+    return set;
+  }
+  /* Shallow clone an object */
+
+  function clone(object) {
+    var newObject = create(null);
+    var property;
+
+    for (property in object) {
+      if (apply(hasOwnProperty, object, [property]) === true) {
+        newObject[property] = object[property];
+      }
+    }
+
+    return newObject;
+  }
+  /* IE10 doesn't support __lookupGetter__ so lets'
+   * simulate it. It also automatically checks
+   * if the prop is function or getter and behaves
+   * accordingly. */
+
+  function lookupGetter(object, prop) {
+    while (object !== null) {
+      var desc = getOwnPropertyDescriptor(object, prop);
+
+      if (desc) {
+        if (desc.get) {
+          return unapply(desc.get);
+        }
+
+        if (typeof desc.value === 'function') {
+          return unapply(desc.value);
+        }
+      }
+
+      object = getPrototypeOf(object);
+    }
+
+    function fallbackValue(element) {
+      console.warn('fallback value for', element);
+      return null;
+    }
+
+    return fallbackValue;
+  }
+
+  var html$1 = freeze(['a', 'abbr', 'acronym', 'address', 'area', 'article', 'aside', 'audio', 'b', 'bdi', 'bdo', 'big', 'blink', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'content', 'data', 'datalist', 'dd', 'decorator', 'del', 'details', 'dfn', 'dialog', 'dir', 'div', 'dl', 'dt', 'element', 'em', 'fieldset', 'figcaption', 'figure', 'font', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'img', 'input', 'ins', 'kbd', 'label', 'legend', 'li', 'main', 'map', 'mark', 'marquee', 'menu', 'menuitem', 'meter', 'nav', 'nobr', 'ol', 'optgroup', 'option', 'output', 'p', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'section', 'select', 'shadow', 'small', 'source', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th', 'thead', 'time', 'tr', 'track', 'tt', 'u', 'ul', 'var', 'video', 'wbr']); // SVG
+
+  var svg$1 = freeze(['svg', 'a', 'altglyph', 'altglyphdef', 'altglyphitem', 'animatecolor', 'animatemotion', 'animatetransform', 'circle', 'clippath', 'defs', 'desc', 'ellipse', 'filter', 'font', 'g', 'glyph', 'glyphref', 'hkern', 'image', 'line', 'lineargradient', 'marker', 'mask', 'metadata', 'mpath', 'path', 'pattern', 'polygon', 'polyline', 'radialgradient', 'rect', 'stop', 'style', 'switch', 'symbol', 'text', 'textpath', 'title', 'tref', 'tspan', 'view', 'vkern']);
+  var svgFilters = freeze(['feBlend', 'feColorMatrix', 'feComponentTransfer', 'feComposite', 'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap', 'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR', 'feGaussianBlur', 'feImage', 'feMerge', 'feMergeNode', 'feMorphology', 'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile', 'feTurbulence']); // List of SVG elements that are disallowed by default.
+  // We still need to know them so that we can do namespace
+  // checks properly in case one wants to add them to
+  // allow-list.
+
+  var svgDisallowed = freeze(['animate', 'color-profile', 'cursor', 'discard', 'fedropshadow', 'font-face', 'font-face-format', 'font-face-name', 'font-face-src', 'font-face-uri', 'foreignobject', 'hatch', 'hatchpath', 'mesh', 'meshgradient', 'meshpatch', 'meshrow', 'missing-glyph', 'script', 'set', 'solidcolor', 'unknown', 'use']);
+  var mathMl$1 = freeze(['math', 'menclose', 'merror', 'mfenced', 'mfrac', 'mglyph', 'mi', 'mlabeledtr', 'mmultiscripts', 'mn', 'mo', 'mover', 'mpadded', 'mphantom', 'mroot', 'mrow', 'ms', 'mspace', 'msqrt', 'mstyle', 'msub', 'msup', 'msubsup', 'mtable', 'mtd', 'mtext', 'mtr', 'munder', 'munderover']); // Similarly to SVG, we want to know all MathML elements,
+  // even those that we disallow by default.
+
+  var mathMlDisallowed = freeze(['maction', 'maligngroup', 'malignmark', 'mlongdiv', 'mscarries', 'mscarry', 'msgroup', 'mstack', 'msline', 'msrow', 'semantics', 'annotation', 'annotation-xml', 'mprescripts', 'none']);
+  var text = freeze(['#text']);
+
+  var html = freeze(['accept', 'action', 'align', 'alt', 'autocapitalize', 'autocomplete', 'autopictureinpicture', 'autoplay', 'background', 'bgcolor', 'border', 'capture', 'cellpadding', 'cellspacing', 'checked', 'cite', 'class', 'clear', 'color', 'cols', 'colspan', 'controls', 'controlslist', 'coords', 'crossorigin', 'datetime', 'decoding', 'default', 'dir', 'disabled', 'disablepictureinpicture', 'disableremoteplayback', 'download', 'draggable', 'enctype', 'enterkeyhint', 'face', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'inputmode', 'integrity', 'ismap', 'kind', 'label', 'lang', 'list', 'loading', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'muted', 'name', 'nonce', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'playsinline', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'translate', 'type', 'usemap', 'valign', 'value', 'width', 'xmlns', 'slot']);
+  var svg = freeze(['accent-height', 'accumulate', 'additive', 'alignment-baseline', 'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseline-shift', 'begin', 'bias', 'by', 'class', 'clip', 'clippathunits', 'clip-path', 'clip-rule', 'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction', 'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'filterunits', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform', 'height', 'href', 'id', 'image-rendering', 'in', 'in2', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints', 'keysplines', 'keytimes', 'lang', 'lengthadjust', 'letter-spacing', 'kernelmatrix', 'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid', 'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits', 'maskunits', 'max', 'mask', 'media', 'method', 'mode', 'min', 'name', 'numoctaves', 'offset', 'operator', 'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order', 'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits', 'points', 'preservealpha', 'preserveaspectratio', 'primitiveunits', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount', 'repeatdur', 'restart', 'result', 'rotate', 'scale', 'seed', 'shape-rendering', 'specularconstant', 'specularexponent', 'spreadmethod', 'startoffset', 'stddeviation', 'stitchtiles', 'stop-color', 'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width', 'style', 'surfacescale', 'systemlanguage', 'tabindex', 'targetx', 'targety', 'transform', 'transform-origin', 'text-anchor', 'text-decoration', 'text-rendering', 'textlength', 'type', 'u1', 'u2', 'unicode', 'values', 'viewbox', 'visibility', 'version', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'width', 'word-spacing', 'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2', 'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan']);
+  var mathMl = freeze(['accent', 'accentunder', 'align', 'bevelled', 'close', 'columnsalign', 'columnlines', 'columnspan', 'denomalign', 'depth', 'dir', 'display', 'displaystyle', 'encoding', 'fence', 'frame', 'height', 'href', 'id', 'largeop', 'length', 'linethickness', 'lspace', 'lquote', 'mathbackground', 'mathcolor', 'mathsize', 'mathvariant', 'maxsize', 'minsize', 'movablelimits', 'notation', 'numalign', 'open', 'rowalign', 'rowlines', 'rowspacing', 'rowspan', 'rspace', 'rquote', 'scriptlevel', 'scriptminsize', 'scriptsizemultiplier', 'selection', 'separator', 'separators', 'stretchy', 'subscriptshift', 'supscriptshift', 'symmetric', 'voffset', 'width', 'xmlns']);
+  var xml = freeze(['xlink:href', 'xml:id', 'xlink:title', 'xml:space', 'xmlns:xlink']);
+
+  var MUSTACHE_EXPR = seal(/\{\{[\w\W]*|[\w\W]*\}\}/gm); // Specify template detection regex for SAFE_FOR_TEMPLATES mode
+
+  var ERB_EXPR = seal(/<%[\w\W]*|[\w\W]*%>/gm);
+  var TMPLIT_EXPR = seal(/\${[\w\W]*}/gm);
+  var DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]/); // eslint-disable-line no-useless-escape
+
+  var ARIA_ATTR = seal(/^aria-[\-\w]+$/); // eslint-disable-line no-useless-escape
+
+  var IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
+  );
+  var IS_SCRIPT_OR_DATA = seal(/^(?:\w+script|data):/i);
+  var ATTR_WHITESPACE = seal(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g // eslint-disable-line no-control-regex
+  );
+  var DOCTYPE_NAME = seal(/^html$/i);
+
+  var getGlobal = function getGlobal() {
+    return typeof window === 'undefined' ? null : window;
+  };
+  /**
+   * Creates a no-op policy for internal use only.
+   * Don't export this function outside this module!
+   * @param {?TrustedTypePolicyFactory} trustedTypes The policy factory.
+   * @param {Document} document The document object (to determine policy name suffix)
+   * @return {?TrustedTypePolicy} The policy created (or null, if Trusted Types
+   * are not supported).
+   */
+
+
+  var _createTrustedTypesPolicy = function _createTrustedTypesPolicy(trustedTypes, document) {
+    if (_typeof(trustedTypes) !== 'object' || typeof trustedTypes.createPolicy !== 'function') {
+      return null;
+    } // Allow the callers to control the unique policy name
+    // by adding a data-tt-policy-suffix to the script element with the DOMPurify.
+    // Policy creation with duplicate names throws in Trusted Types.
+
+
+    var suffix = null;
+    var ATTR_NAME = 'data-tt-policy-suffix';
+
+    if (document.currentScript && document.currentScript.hasAttribute(ATTR_NAME)) {
+      suffix = document.currentScript.getAttribute(ATTR_NAME);
+    }
+
+    var policyName = 'dompurify' + (suffix ? '#' + suffix : '');
+
+    try {
+      return trustedTypes.createPolicy(policyName, {
+        createHTML: function createHTML(html) {
+          return html;
+        },
+        createScriptURL: function createScriptURL(scriptUrl) {
+          return scriptUrl;
+        }
+      });
+    } catch (_) {
+      // Policy creation failed (most likely another DOMPurify script has
+      // already run). Skip creating the policy, as this will only cause errors
+      // if TT are enforced.
+      console.warn('TrustedTypes policy ' + policyName + ' could not be created.');
+      return null;
+    }
+  };
+
+  function createDOMPurify() {
+    var window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getGlobal();
+
+    var DOMPurify = function DOMPurify(root) {
+      return createDOMPurify(root);
+    };
+    /**
+     * Version label, exposed for easier checks
+     * if DOMPurify is up to date or not
+     */
+
+
+    DOMPurify.version = '2.4.7';
+    /**
+     * Array of elements that DOMPurify removed during sanitation.
+     * Empty if nothing was removed.
+     */
+
+    DOMPurify.removed = [];
+
+    if (!window || !window.document || window.document.nodeType !== 9) {
+      // Not running in a browser, provide a factory function
+      // so that you can pass your own Window
+      DOMPurify.isSupported = false;
+      return DOMPurify;
+    }
+
+    var originalDocument = window.document;
+    var document = window.document;
+    var DocumentFragment = window.DocumentFragment,
+        HTMLTemplateElement = window.HTMLTemplateElement,
+        Node = window.Node,
+        Element = window.Element,
+        NodeFilter = window.NodeFilter,
+        _window$NamedNodeMap = window.NamedNodeMap,
+        NamedNodeMap = _window$NamedNodeMap === void 0 ? window.NamedNodeMap || window.MozNamedAttrMap : _window$NamedNodeMap,
+        HTMLFormElement = window.HTMLFormElement,
+        DOMParser = window.DOMParser,
+        trustedTypes = window.trustedTypes;
+    var ElementPrototype = Element.prototype;
+    var cloneNode = lookupGetter(ElementPrototype, 'cloneNode');
+    var getNextSibling = lookupGetter(ElementPrototype, 'nextSibling');
+    var getChildNodes = lookupGetter(ElementPrototype, 'childNodes');
+    var getParentNode = lookupGetter(ElementPrototype, 'parentNode'); // As per issue #47, the web-components registry is inherited by a
+    // new document created via createHTMLDocument. As per the spec
+    // (http://w3c.github.io/webcomponents/spec/custom/#creating-and-passing-registries)
+    // a new empty registry is used when creating a template contents owner
+    // document, so we use that as our parent document to ensure nothing
+    // is inherited.
+
+    if (typeof HTMLTemplateElement === 'function') {
+      var template = document.createElement('template');
+
+      if (template.content && template.content.ownerDocument) {
+        document = template.content.ownerDocument;
+      }
+    }
+
+    var trustedTypesPolicy = _createTrustedTypesPolicy(trustedTypes, originalDocument);
+
+    var emptyHTML = trustedTypesPolicy ? trustedTypesPolicy.createHTML('') : '';
+    var _document = document,
+        implementation = _document.implementation,
+        createNodeIterator = _document.createNodeIterator,
+        createDocumentFragment = _document.createDocumentFragment,
+        getElementsByTagName = _document.getElementsByTagName;
+    var importNode = originalDocument.importNode;
+    var documentMode = {};
+
+    try {
+      documentMode = clone(document).documentMode ? document.documentMode : {};
+    } catch (_) {}
+
+    var hooks = {};
+    /**
+     * Expose whether this browser supports running the full DOMPurify.
+     */
+
+    DOMPurify.isSupported = typeof getParentNode === 'function' && implementation && implementation.createHTMLDocument !== undefined && documentMode !== 9;
+    var MUSTACHE_EXPR$1 = MUSTACHE_EXPR,
+        ERB_EXPR$1 = ERB_EXPR,
+        TMPLIT_EXPR$1 = TMPLIT_EXPR,
+        DATA_ATTR$1 = DATA_ATTR,
+        ARIA_ATTR$1 = ARIA_ATTR,
+        IS_SCRIPT_OR_DATA$1 = IS_SCRIPT_OR_DATA,
+        ATTR_WHITESPACE$1 = ATTR_WHITESPACE;
+    var IS_ALLOWED_URI$1 = IS_ALLOWED_URI;
+    /**
+     * We consider the elements and attributes below to be safe. Ideally
+     * don't add any new ones but feel free to remove unwanted ones.
+     */
+
+    /* allowed element names */
+
+    var ALLOWED_TAGS = null;
+    var DEFAULT_ALLOWED_TAGS = addToSet({}, [].concat(_toConsumableArray(html$1), _toConsumableArray(svg$1), _toConsumableArray(svgFilters), _toConsumableArray(mathMl$1), _toConsumableArray(text)));
+    /* Allowed attribute names */
+
+    var ALLOWED_ATTR = null;
+    var DEFAULT_ALLOWED_ATTR = addToSet({}, [].concat(_toConsumableArray(html), _toConsumableArray(svg), _toConsumableArray(mathMl), _toConsumableArray(xml)));
+    /*
+     * Configure how DOMPUrify should handle custom elements and their attributes as well as customized built-in elements.
+     * @property {RegExp|Function|null} tagNameCheck one of [null, regexPattern, predicate]. Default: `null` (disallow any custom elements)
+     * @property {RegExp|Function|null} attributeNameCheck one of [null, regexPattern, predicate]. Default: `null` (disallow any attributes not on the allow list)
+     * @property {boolean} allowCustomizedBuiltInElements allow custom elements derived from built-ins if they pass CUSTOM_ELEMENT_HANDLING.tagNameCheck. Default: `false`.
+     */
+
+    var CUSTOM_ELEMENT_HANDLING = Object.seal(Object.create(null, {
+      tagNameCheck: {
+        writable: true,
+        configurable: false,
+        enumerable: true,
+        value: null
+      },
+      attributeNameCheck: {
+        writable: true,
+        configurable: false,
+        enumerable: true,
+        value: null
+      },
+      allowCustomizedBuiltInElements: {
+        writable: true,
+        configurable: false,
+        enumerable: true,
+        value: false
+      }
+    }));
+    /* Explicitly forbidden tags (overrides ALLOWED_TAGS/ADD_TAGS) */
+
+    var FORBID_TAGS = null;
+    /* Explicitly forbidden attributes (overrides ALLOWED_ATTR/ADD_ATTR) */
+
+    var FORBID_ATTR = null;
+    /* Decide if ARIA attributes are okay */
+
+    var ALLOW_ARIA_ATTR = true;
+    /* Decide if custom data attributes are okay */
+
+    var ALLOW_DATA_ATTR = true;
+    /* Decide if unknown protocols are okay */
+
+    var ALLOW_UNKNOWN_PROTOCOLS = false;
+    /* Decide if self-closing tags in attributes are allowed.
+     * Usually removed due to a mXSS issue in jQuery 3.0 */
+
+    var ALLOW_SELF_CLOSE_IN_ATTR = true;
+    /* Output should be safe for common template engines.
+     * This means, DOMPurify removes data attributes, mustaches and ERB
+     */
+
+    var SAFE_FOR_TEMPLATES = false;
+    /* Decide if document with <html>... should be returned */
+
+    var WHOLE_DOCUMENT = false;
+    /* Track whether config is already set on this instance of DOMPurify. */
+
+    var SET_CONFIG = false;
+    /* Decide if all elements (e.g. style, script) must be children of
+     * document.body. By default, browsers might move them to document.head */
+
+    var FORCE_BODY = false;
+    /* Decide if a DOM `HTMLBodyElement` should be returned, instead of a html
+     * string (or a TrustedHTML object if Trusted Types are supported).
+     * If `WHOLE_DOCUMENT` is enabled a `HTMLHtmlElement` will be returned instead
+     */
+
+    var RETURN_DOM = false;
+    /* Decide if a DOM `DocumentFragment` should be returned, instead of a html
+     * string  (or a TrustedHTML object if Trusted Types are supported) */
+
+    var RETURN_DOM_FRAGMENT = false;
+    /* Try to return a Trusted Type object instead of a string, return a string in
+     * case Trusted Types are not supported  */
+
+    var RETURN_TRUSTED_TYPE = false;
+    /* Output should be free from DOM clobbering attacks?
+     * This sanitizes markups named with colliding, clobberable built-in DOM APIs.
+     */
+
+    var SANITIZE_DOM = true;
+    /* Achieve full DOM Clobbering protection by isolating the namespace of named
+     * properties and JS variables, mitigating attacks that abuse the HTML/DOM spec rules.
+     *
+     * HTML/DOM spec rules that enable DOM Clobbering:
+     *   - Named Access on Window (§7.3.3)
+     *   - DOM Tree Accessors (§3.1.5)
+     *   - Form Element Parent-Child Relations (§4.10.3)
+     *   - Iframe srcdoc / Nested WindowProxies (§4.8.5)
+     *   - HTMLCollection (§4.2.10.2)
+     *
+     * Namespace isolation is implemented by prefixing `id` and `name` attributes
+     * with a constant string, i.e., `user-content-`
+     */
+
+    var SANITIZE_NAMED_PROPS = false;
+    var SANITIZE_NAMED_PROPS_PREFIX = 'user-content-';
+    /* Keep element content when removing element? */
+
+    var KEEP_CONTENT = true;
+    /* If a `Node` is passed to sanitize(), then performs sanitization in-place instead
+     * of importing it into a new Document and returning a sanitized copy */
+
+    var IN_PLACE = false;
+    /* Allow usage of profiles like html, svg and mathMl */
+
+    var USE_PROFILES = {};
+    /* Tags to ignore content of when KEEP_CONTENT is true */
+
+    var FORBID_CONTENTS = null;
+    var DEFAULT_FORBID_CONTENTS = addToSet({}, ['annotation-xml', 'audio', 'colgroup', 'desc', 'foreignobject', 'head', 'iframe', 'math', 'mi', 'mn', 'mo', 'ms', 'mtext', 'noembed', 'noframes', 'noscript', 'plaintext', 'script', 'style', 'svg', 'template', 'thead', 'title', 'video', 'xmp']);
+    /* Tags that are safe for data: URIs */
+
+    var DATA_URI_TAGS = null;
+    var DEFAULT_DATA_URI_TAGS = addToSet({}, ['audio', 'video', 'img', 'source', 'image', 'track']);
+    /* Attributes safe for values like "javascript:" */
+
+    var URI_SAFE_ATTRIBUTES = null;
+    var DEFAULT_URI_SAFE_ATTRIBUTES = addToSet({}, ['alt', 'class', 'for', 'id', 'label', 'name', 'pattern', 'placeholder', 'role', 'summary', 'title', 'value', 'style', 'xmlns']);
+    var MATHML_NAMESPACE = 'http://www.w3.org/1998/Math/MathML';
+    var SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
+    var HTML_NAMESPACE = 'http://www.w3.org/1999/xhtml';
+    /* Document namespace */
+
+    var NAMESPACE = HTML_NAMESPACE;
+    var IS_EMPTY_INPUT = false;
+    /* Allowed XHTML+XML namespaces */
+
+    var ALLOWED_NAMESPACES = null;
+    var DEFAULT_ALLOWED_NAMESPACES = addToSet({}, [MATHML_NAMESPACE, SVG_NAMESPACE, HTML_NAMESPACE], stringToString);
+    /* Parsing of strict XHTML documents */
+
+    var PARSER_MEDIA_TYPE;
+    var SUPPORTED_PARSER_MEDIA_TYPES = ['application/xhtml+xml', 'text/html'];
+    var DEFAULT_PARSER_MEDIA_TYPE = 'text/html';
+    var transformCaseFunc;
+    /* Keep a reference to config to pass to hooks */
+
+    var CONFIG = null;
+    /* Ideally, do not touch anything below this line */
+
+    /* ______________________________________________ */
+
+    var formElement = document.createElement('form');
+
+    var isRegexOrFunction = function isRegexOrFunction(testValue) {
+      return testValue instanceof RegExp || testValue instanceof Function;
+    };
+    /**
+     * _parseConfig
+     *
+     * @param  {Object} cfg optional config literal
+     */
+    // eslint-disable-next-line complexity
+
+
+    var _parseConfig = function _parseConfig(cfg) {
+      if (CONFIG && CONFIG === cfg) {
+        return;
+      }
+      /* Shield configuration object from tampering */
+
+
+      if (!cfg || _typeof(cfg) !== 'object') {
+        cfg = {};
+      }
+      /* Shield configuration object from prototype pollution */
+
+
+      cfg = clone(cfg);
+      PARSER_MEDIA_TYPE = // eslint-disable-next-line unicorn/prefer-includes
+      SUPPORTED_PARSER_MEDIA_TYPES.indexOf(cfg.PARSER_MEDIA_TYPE) === -1 ? PARSER_MEDIA_TYPE = DEFAULT_PARSER_MEDIA_TYPE : PARSER_MEDIA_TYPE = cfg.PARSER_MEDIA_TYPE; // HTML tags and attributes are not case-sensitive, converting to lowercase. Keeping XHTML as is.
+
+      transformCaseFunc = PARSER_MEDIA_TYPE === 'application/xhtml+xml' ? stringToString : stringToLowerCase;
+      /* Set configuration parameters */
+
+      ALLOWED_TAGS = 'ALLOWED_TAGS' in cfg ? addToSet({}, cfg.ALLOWED_TAGS, transformCaseFunc) : DEFAULT_ALLOWED_TAGS;
+      ALLOWED_ATTR = 'ALLOWED_ATTR' in cfg ? addToSet({}, cfg.ALLOWED_ATTR, transformCaseFunc) : DEFAULT_ALLOWED_ATTR;
+      ALLOWED_NAMESPACES = 'ALLOWED_NAMESPACES' in cfg ? addToSet({}, cfg.ALLOWED_NAMESPACES, stringToString) : DEFAULT_ALLOWED_NAMESPACES;
+      URI_SAFE_ATTRIBUTES = 'ADD_URI_SAFE_ATTR' in cfg ? addToSet(clone(DEFAULT_URI_SAFE_ATTRIBUTES), // eslint-disable-line indent
+      cfg.ADD_URI_SAFE_ATTR, // eslint-disable-line indent
+      transformCaseFunc // eslint-disable-line indent
+      ) // eslint-disable-line indent
+      : DEFAULT_URI_SAFE_ATTRIBUTES;
+      DATA_URI_TAGS = 'ADD_DATA_URI_TAGS' in cfg ? addToSet(clone(DEFAULT_DATA_URI_TAGS), // eslint-disable-line indent
+      cfg.ADD_DATA_URI_TAGS, // eslint-disable-line indent
+      transformCaseFunc // eslint-disable-line indent
+      ) // eslint-disable-line indent
+      : DEFAULT_DATA_URI_TAGS;
+      FORBID_CONTENTS = 'FORBID_CONTENTS' in cfg ? addToSet({}, cfg.FORBID_CONTENTS, transformCaseFunc) : DEFAULT_FORBID_CONTENTS;
+      FORBID_TAGS = 'FORBID_TAGS' in cfg ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : {};
+      FORBID_ATTR = 'FORBID_ATTR' in cfg ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : {};
+      USE_PROFILES = 'USE_PROFILES' in cfg ? cfg.USE_PROFILES : false;
+      ALLOW_ARIA_ATTR = cfg.ALLOW_ARIA_ATTR !== false; // Default true
+
+      ALLOW_DATA_ATTR = cfg.ALLOW_DATA_ATTR !== false; // Default true
+
+      ALLOW_UNKNOWN_PROTOCOLS = cfg.ALLOW_UNKNOWN_PROTOCOLS || false; // Default false
+
+      ALLOW_SELF_CLOSE_IN_ATTR = cfg.ALLOW_SELF_CLOSE_IN_ATTR !== false; // Default true
+
+      SAFE_FOR_TEMPLATES = cfg.SAFE_FOR_TEMPLATES || false; // Default false
+
+      WHOLE_DOCUMENT = cfg.WHOLE_DOCUMENT || false; // Default false
+
+      RETURN_DOM = cfg.RETURN_DOM || false; // Default false
+
+      RETURN_DOM_FRAGMENT = cfg.RETURN_DOM_FRAGMENT || false; // Default false
+
+      RETURN_TRUSTED_TYPE = cfg.RETURN_TRUSTED_TYPE || false; // Default false
+
+      FORCE_BODY = cfg.FORCE_BODY || false; // Default false
+
+      SANITIZE_DOM = cfg.SANITIZE_DOM !== false; // Default true
+
+      SANITIZE_NAMED_PROPS = cfg.SANITIZE_NAMED_PROPS || false; // Default false
+
+      KEEP_CONTENT = cfg.KEEP_CONTENT !== false; // Default true
+
+      IN_PLACE = cfg.IN_PLACE || false; // Default false
+
+      IS_ALLOWED_URI$1 = cfg.ALLOWED_URI_REGEXP || IS_ALLOWED_URI$1;
+      NAMESPACE = cfg.NAMESPACE || HTML_NAMESPACE;
+      CUSTOM_ELEMENT_HANDLING = cfg.CUSTOM_ELEMENT_HANDLING || {};
+
+      if (cfg.CUSTOM_ELEMENT_HANDLING && isRegexOrFunction(cfg.CUSTOM_ELEMENT_HANDLING.tagNameCheck)) {
+        CUSTOM_ELEMENT_HANDLING.tagNameCheck = cfg.CUSTOM_ELEMENT_HANDLING.tagNameCheck;
+      }
+
+      if (cfg.CUSTOM_ELEMENT_HANDLING && isRegexOrFunction(cfg.CUSTOM_ELEMENT_HANDLING.attributeNameCheck)) {
+        CUSTOM_ELEMENT_HANDLING.attributeNameCheck = cfg.CUSTOM_ELEMENT_HANDLING.attributeNameCheck;
+      }
+
+      if (cfg.CUSTOM_ELEMENT_HANDLING && typeof cfg.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements === 'boolean') {
+        CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements = cfg.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements;
+      }
+
+      if (SAFE_FOR_TEMPLATES) {
+        ALLOW_DATA_ATTR = false;
+      }
+
+      if (RETURN_DOM_FRAGMENT) {
+        RETURN_DOM = true;
+      }
+      /* Parse profile info */
+
+
+      if (USE_PROFILES) {
+        ALLOWED_TAGS = addToSet({}, _toConsumableArray(text));
+        ALLOWED_ATTR = [];
+
+        if (USE_PROFILES.html === true) {
+          addToSet(ALLOWED_TAGS, html$1);
+          addToSet(ALLOWED_ATTR, html);
+        }
+
+        if (USE_PROFILES.svg === true) {
+          addToSet(ALLOWED_TAGS, svg$1);
+          addToSet(ALLOWED_ATTR, svg);
+          addToSet(ALLOWED_ATTR, xml);
+        }
+
+        if (USE_PROFILES.svgFilters === true) {
+          addToSet(ALLOWED_TAGS, svgFilters);
+          addToSet(ALLOWED_ATTR, svg);
+          addToSet(ALLOWED_ATTR, xml);
+        }
+
+        if (USE_PROFILES.mathMl === true) {
+          addToSet(ALLOWED_TAGS, mathMl$1);
+          addToSet(ALLOWED_ATTR, mathMl);
+          addToSet(ALLOWED_ATTR, xml);
+        }
+      }
+      /* Merge configuration parameters */
+
+
+      if (cfg.ADD_TAGS) {
+        if (ALLOWED_TAGS === DEFAULT_ALLOWED_TAGS) {
+          ALLOWED_TAGS = clone(ALLOWED_TAGS);
+        }
+
+        addToSet(ALLOWED_TAGS, cfg.ADD_TAGS, transformCaseFunc);
+      }
+
+      if (cfg.ADD_ATTR) {
+        if (ALLOWED_ATTR === DEFAULT_ALLOWED_ATTR) {
+          ALLOWED_ATTR = clone(ALLOWED_ATTR);
+        }
+
+        addToSet(ALLOWED_ATTR, cfg.ADD_ATTR, transformCaseFunc);
+      }
+
+      if (cfg.ADD_URI_SAFE_ATTR) {
+        addToSet(URI_SAFE_ATTRIBUTES, cfg.ADD_URI_SAFE_ATTR, transformCaseFunc);
+      }
+
+      if (cfg.FORBID_CONTENTS) {
+        if (FORBID_CONTENTS === DEFAULT_FORBID_CONTENTS) {
+          FORBID_CONTENTS = clone(FORBID_CONTENTS);
+        }
+
+        addToSet(FORBID_CONTENTS, cfg.FORBID_CONTENTS, transformCaseFunc);
+      }
+      /* Add #text in case KEEP_CONTENT is set to true */
+
+
+      if (KEEP_CONTENT) {
+        ALLOWED_TAGS['#text'] = true;
+      }
+      /* Add html, head and body to ALLOWED_TAGS in case WHOLE_DOCUMENT is true */
+
+
+      if (WHOLE_DOCUMENT) {
+        addToSet(ALLOWED_TAGS, ['html', 'head', 'body']);
+      }
+      /* Add tbody to ALLOWED_TAGS in case tables are permitted, see #286, #365 */
+
+
+      if (ALLOWED_TAGS.table) {
+        addToSet(ALLOWED_TAGS, ['tbody']);
+        delete FORBID_TAGS.tbody;
+      } // Prevent further manipulation of configuration.
+      // Not available in IE8, Safari 5, etc.
+
+
+      if (freeze) {
+        freeze(cfg);
+      }
+
+      CONFIG = cfg;
+    };
+
+    var MATHML_TEXT_INTEGRATION_POINTS = addToSet({}, ['mi', 'mo', 'mn', 'ms', 'mtext']);
+    var HTML_INTEGRATION_POINTS = addToSet({}, ['foreignobject', 'desc', 'title', 'annotation-xml']); // Certain elements are allowed in both SVG and HTML
+    // namespace. We need to specify them explicitly
+    // so that they don't get erroneously deleted from
+    // HTML namespace.
+
+    var COMMON_SVG_AND_HTML_ELEMENTS = addToSet({}, ['title', 'style', 'font', 'a', 'script']);
+    /* Keep track of all possible SVG and MathML tags
+     * so that we can perform the namespace checks
+     * correctly. */
+
+    var ALL_SVG_TAGS = addToSet({}, svg$1);
+    addToSet(ALL_SVG_TAGS, svgFilters);
+    addToSet(ALL_SVG_TAGS, svgDisallowed);
+    var ALL_MATHML_TAGS = addToSet({}, mathMl$1);
+    addToSet(ALL_MATHML_TAGS, mathMlDisallowed);
+    /**
+     *
+     *
+     * @param  {Element} element a DOM element whose namespace is being checked
+     * @returns {boolean} Return false if the element has a
+     *  namespace that a spec-compliant parser would never
+     *  return. Return true otherwise.
+     */
+
+    var _checkValidNamespace = function _checkValidNamespace(element) {
+      var parent = getParentNode(element); // In JSDOM, if we're inside shadow DOM, then parentNode
+      // can be null. We just simulate parent in this case.
+
+      if (!parent || !parent.tagName) {
+        parent = {
+          namespaceURI: NAMESPACE,
+          tagName: 'template'
+        };
+      }
+
+      var tagName = stringToLowerCase(element.tagName);
+      var parentTagName = stringToLowerCase(parent.tagName);
+
+      if (!ALLOWED_NAMESPACES[element.namespaceURI]) {
+        return false;
+      }
+
+      if (element.namespaceURI === SVG_NAMESPACE) {
+        // The only way to switch from HTML namespace to SVG
+        // is via <svg>. If it happens via any other tag, then
+        // it should be killed.
+        if (parent.namespaceURI === HTML_NAMESPACE) {
+          return tagName === 'svg';
+        } // The only way to switch from MathML to SVG is via`
+        // svg if parent is either <annotation-xml> or MathML
+        // text integration points.
+
+
+        if (parent.namespaceURI === MATHML_NAMESPACE) {
+          return tagName === 'svg' && (parentTagName === 'annotation-xml' || MATHML_TEXT_INTEGRATION_POINTS[parentTagName]);
+        } // We only allow elements that are defined in SVG
+        // spec. All others are disallowed in SVG namespace.
+
+
+        return Boolean(ALL_SVG_TAGS[tagName]);
+      }
+
+      if (element.namespaceURI === MATHML_NAMESPACE) {
+        // The only way to switch from HTML namespace to MathML
+        // is via <math>. If it happens via any other tag, then
+        // it should be killed.
+        if (parent.namespaceURI === HTML_NAMESPACE) {
+          return tagName === 'math';
+        } // The only way to switch from SVG to MathML is via
+        // <math> and HTML integration points
+
+
+        if (parent.namespaceURI === SVG_NAMESPACE) {
+          return tagName === 'math' && HTML_INTEGRATION_POINTS[parentTagName];
+        } // We only allow elements that are defined in MathML
+        // spec. All others are disallowed in MathML namespace.
+
+
+        return Boolean(ALL_MATHML_TAGS[tagName]);
+      }
+
+      if (element.namespaceURI === HTML_NAMESPACE) {
+        // The only way to switch from SVG to HTML is via
+        // HTML integration points, and from MathML to HTML
+        // is via MathML text integration points
+        if (parent.namespaceURI === SVG_NAMESPACE && !HTML_INTEGRATION_POINTS[parentTagName]) {
+          return false;
+        }
+
+        if (parent.namespaceURI === MATHML_NAMESPACE && !MATHML_TEXT_INTEGRATION_POINTS[parentTagName]) {
+          return false;
+        } // We disallow tags that are specific for MathML
+        // or SVG and should never appear in HTML namespace
+
+
+        return !ALL_MATHML_TAGS[tagName] && (COMMON_SVG_AND_HTML_ELEMENTS[tagName] || !ALL_SVG_TAGS[tagName]);
+      } // For XHTML and XML documents that support custom namespaces
+
+
+      if (PARSER_MEDIA_TYPE === 'application/xhtml+xml' && ALLOWED_NAMESPACES[element.namespaceURI]) {
+        return true;
+      } // The code should never reach this place (this means
+      // that the element somehow got namespace that is not
+      // HTML, SVG, MathML or allowed via ALLOWED_NAMESPACES).
+      // Return false just in case.
+
+
+      return false;
+    };
+    /**
+     * _forceRemove
+     *
+     * @param  {Node} node a DOM node
+     */
+
+
+    var _forceRemove = function _forceRemove(node) {
+      arrayPush(DOMPurify.removed, {
+        element: node
+      });
+
+      try {
+        // eslint-disable-next-line unicorn/prefer-dom-node-remove
+        node.parentNode.removeChild(node);
+      } catch (_) {
+        try {
+          node.outerHTML = emptyHTML;
+        } catch (_) {
+          node.remove();
+        }
+      }
+    };
+    /**
+     * _removeAttribute
+     *
+     * @param  {String} name an Attribute name
+     * @param  {Node} node a DOM node
+     */
+
+
+    var _removeAttribute = function _removeAttribute(name, node) {
+      try {
+        arrayPush(DOMPurify.removed, {
+          attribute: node.getAttributeNode(name),
+          from: node
+        });
+      } catch (_) {
+        arrayPush(DOMPurify.removed, {
+          attribute: null,
+          from: node
+        });
+      }
+
+      node.removeAttribute(name); // We void attribute values for unremovable "is"" attributes
+
+      if (name === 'is' && !ALLOWED_ATTR[name]) {
+        if (RETURN_DOM || RETURN_DOM_FRAGMENT) {
+          try {
+            _forceRemove(node);
+          } catch (_) {}
+        } else {
+          try {
+            node.setAttribute(name, '');
+          } catch (_) {}
+        }
+      }
+    };
+    /**
+     * _initDocument
+     *
+     * @param  {String} dirty a string of dirty markup
+     * @return {Document} a DOM, filled with the dirty markup
+     */
+
+
+    var _initDocument = function _initDocument(dirty) {
+      /* Create a HTML document */
+      var doc;
+      var leadingWhitespace;
+
+      if (FORCE_BODY) {
+        dirty = '<remove></remove>' + dirty;
+      } else {
+        /* If FORCE_BODY isn't used, leading whitespace needs to be preserved manually */
+        var matches = stringMatch(dirty, /^[\r\n\t ]+/);
+        leadingWhitespace = matches && matches[0];
+      }
+
+      if (PARSER_MEDIA_TYPE === 'application/xhtml+xml' && NAMESPACE === HTML_NAMESPACE) {
+        // Root of XHTML doc must contain xmlns declaration (see https://www.w3.org/TR/xhtml1/normative.html#strict)
+        dirty = '<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>' + dirty + '</body></html>';
+      }
+
+      var dirtyPayload = trustedTypesPolicy ? trustedTypesPolicy.createHTML(dirty) : dirty;
+      /*
+       * Use the DOMParser API by default, fallback later if needs be
+       * DOMParser not work for svg when has multiple root element.
+       */
+
+      if (NAMESPACE === HTML_NAMESPACE) {
+        try {
+          doc = new DOMParser().parseFromString(dirtyPayload, PARSER_MEDIA_TYPE);
+        } catch (_) {}
+      }
+      /* Use createHTMLDocument in case DOMParser is not available */
+
+
+      if (!doc || !doc.documentElement) {
+        doc = implementation.createDocument(NAMESPACE, 'template', null);
+
+        try {
+          doc.documentElement.innerHTML = IS_EMPTY_INPUT ? emptyHTML : dirtyPayload;
+        } catch (_) {// Syntax error if dirtyPayload is invalid xml
+        }
+      }
+
+      var body = doc.body || doc.documentElement;
+
+      if (dirty && leadingWhitespace) {
+        body.insertBefore(document.createTextNode(leadingWhitespace), body.childNodes[0] || null);
+      }
+      /* Work on whole document or just its body */
+
+
+      if (NAMESPACE === HTML_NAMESPACE) {
+        return getElementsByTagName.call(doc, WHOLE_DOCUMENT ? 'html' : 'body')[0];
+      }
+
+      return WHOLE_DOCUMENT ? doc.documentElement : body;
+    };
+    /**
+     * _createIterator
+     *
+     * @param  {Document} root document/fragment to create iterator for
+     * @return {Iterator} iterator instance
+     */
+
+
+    var _createIterator = function _createIterator(root) {
+      return createNodeIterator.call(root.ownerDocument || root, root, // eslint-disable-next-line no-bitwise
+      NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_TEXT, null, false);
+    };
+    /**
+     * _isClobbered
+     *
+     * @param  {Node} elm element to check for clobbering attacks
+     * @return {Boolean} true if clobbered, false if safe
+     */
+
+
+    var _isClobbered = function _isClobbered(elm) {
+      return elm instanceof HTMLFormElement && (typeof elm.nodeName !== 'string' || typeof elm.textContent !== 'string' || typeof elm.removeChild !== 'function' || !(elm.attributes instanceof NamedNodeMap) || typeof elm.removeAttribute !== 'function' || typeof elm.setAttribute !== 'function' || typeof elm.namespaceURI !== 'string' || typeof elm.insertBefore !== 'function' || typeof elm.hasChildNodes !== 'function');
+    };
+    /**
+     * _isNode
+     *
+     * @param  {Node} obj object to check whether it's a DOM node
+     * @return {Boolean} true is object is a DOM node
+     */
+
+
+    var _isNode = function _isNode(object) {
+      return _typeof(Node) === 'object' ? object instanceof Node : object && _typeof(object) === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string';
+    };
+    /**
+     * _executeHook
+     * Execute user configurable hooks
+     *
+     * @param  {String} entryPoint  Name of the hook's entry point
+     * @param  {Node} currentNode node to work on with the hook
+     * @param  {Object} data additional hook parameters
+     */
+
+
+    var _executeHook = function _executeHook(entryPoint, currentNode, data) {
+      if (!hooks[entryPoint]) {
+        return;
+      }
+
+      arrayForEach(hooks[entryPoint], function (hook) {
+        hook.call(DOMPurify, currentNode, data, CONFIG);
+      });
+    };
+    /**
+     * _sanitizeElements
+     *
+     * @protect nodeName
+     * @protect textContent
+     * @protect removeChild
+     *
+     * @param   {Node} currentNode to check for permission to exist
+     * @return  {Boolean} true if node was killed, false if left alive
+     */
+
+
+    var _sanitizeElements = function _sanitizeElements(currentNode) {
+      var content;
+      /* Execute a hook if present */
+
+      _executeHook('beforeSanitizeElements', currentNode, null);
+      /* Check if element is clobbered or can clobber */
+
+
+      if (_isClobbered(currentNode)) {
+        _forceRemove(currentNode);
+
+        return true;
+      }
+      /* Check if tagname contains Unicode */
+
+
+      if (regExpTest(/[\u0080-\uFFFF]/, currentNode.nodeName)) {
+        _forceRemove(currentNode);
+
+        return true;
+      }
+      /* Now let's check the element's type and name */
+
+
+      var tagName = transformCaseFunc(currentNode.nodeName);
+      /* Execute a hook if present */
+
+      _executeHook('uponSanitizeElement', currentNode, {
+        tagName: tagName,
+        allowedTags: ALLOWED_TAGS
+      });
+      /* Detect mXSS attempts abusing namespace confusion */
+
+
+      if (currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && (!_isNode(currentNode.content) || !_isNode(currentNode.content.firstElementChild)) && regExpTest(/<[/\w]/g, currentNode.innerHTML) && regExpTest(/<[/\w]/g, currentNode.textContent)) {
+        _forceRemove(currentNode);
+
+        return true;
+      }
+      /* Mitigate a problem with templates inside select */
+
+
+      if (tagName === 'select' && regExpTest(/<template/i, currentNode.innerHTML)) {
+        _forceRemove(currentNode);
+
+        return true;
+      }
+      /* Remove element if anything forbids its presence */
+
+
+      if (!ALLOWED_TAGS[tagName] || FORBID_TAGS[tagName]) {
+        /* Check if we have a custom element to handle */
+        if (!FORBID_TAGS[tagName] && _basicCustomElementTest(tagName)) {
+          if (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.tagNameCheck, tagName)) return false;
+          if (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.tagNameCheck(tagName)) return false;
+        }
+        /* Keep content except for bad-listed elements */
+
+
+        if (KEEP_CONTENT && !FORBID_CONTENTS[tagName]) {
+          var parentNode = getParentNode(currentNode) || currentNode.parentNode;
+          var childNodes = getChildNodes(currentNode) || currentNode.childNodes;
+
+          if (childNodes && parentNode) {
+            var childCount = childNodes.length;
+
+            for (var i = childCount - 1; i >= 0; --i) {
+              parentNode.insertBefore(cloneNode(childNodes[i], true), getNextSibling(currentNode));
+            }
+          }
+        }
+
+        _forceRemove(currentNode);
+
+        return true;
+      }
+      /* Check whether element has a valid namespace */
+
+
+      if (currentNode instanceof Element && !_checkValidNamespace(currentNode)) {
+        _forceRemove(currentNode);
+
+        return true;
+      }
+      /* Make sure that older browsers don't get fallback-tag mXSS */
+
+
+      if ((tagName === 'noscript' || tagName === 'noembed' || tagName === 'noframes') && regExpTest(/<\/no(script|embed|frames)/i, currentNode.innerHTML)) {
+        _forceRemove(currentNode);
+
+        return true;
+      }
+      /* Sanitize element content to be template-safe */
+
+
+      if (SAFE_FOR_TEMPLATES && currentNode.nodeType === 3) {
+        /* Get the element's text content */
+        content = currentNode.textContent;
+        content = stringReplace(content, MUSTACHE_EXPR$1, ' ');
+        content = stringReplace(content, ERB_EXPR$1, ' ');
+        content = stringReplace(content, TMPLIT_EXPR$1, ' ');
+
+        if (currentNode.textContent !== content) {
+          arrayPush(DOMPurify.removed, {
+            element: currentNode.cloneNode()
+          });
+          currentNode.textContent = content;
+        }
+      }
+      /* Execute a hook if present */
+
+
+      _executeHook('afterSanitizeElements', currentNode, null);
+
+      return false;
+    };
+    /**
+     * _isValidAttribute
+     *
+     * @param  {string} lcTag Lowercase tag name of containing element.
+     * @param  {string} lcName Lowercase attribute name.
+     * @param  {string} value Attribute value.
+     * @return {Boolean} Returns true if `value` is valid, otherwise false.
+     */
+    // eslint-disable-next-line complexity
+
+
+    var _isValidAttribute = function _isValidAttribute(lcTag, lcName, value) {
+      /* Make sure attribute cannot clobber */
+      if (SANITIZE_DOM && (lcName === 'id' || lcName === 'name') && (value in document || value in formElement)) {
+        return false;
+      }
+      /* Allow valid data-* attributes: At least one character after "-"
+          (https://html.spec.whatwg.org/multipage/dom.html#embedding-custom-non-visible-data-with-the-data-*-attributes)
+          XML-compatible (https://html.spec.whatwg.org/multipage/infrastructure.html#xml-compatible and http://www.w3.org/TR/xml/#d0e804)
+          We don't need to check the value; it's always URI safe. */
+
+
+      if (ALLOW_DATA_ATTR && !FORBID_ATTR[lcName] && regExpTest(DATA_ATTR$1, lcName)) ; else if (ALLOW_ARIA_ATTR && regExpTest(ARIA_ATTR$1, lcName)) ; else if (!ALLOWED_ATTR[lcName] || FORBID_ATTR[lcName]) {
+        if ( // First condition does a very basic check if a) it's basically a valid custom element tagname AND
+        // b) if the tagName passes whatever the user has configured for CUSTOM_ELEMENT_HANDLING.tagNameCheck
+        // and c) if the attribute name passes whatever the user has configured for CUSTOM_ELEMENT_HANDLING.attributeNameCheck
+        _basicCustomElementTest(lcTag) && (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.tagNameCheck, lcTag) || CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.tagNameCheck(lcTag)) && (CUSTOM_ELEMENT_HANDLING.attributeNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.attributeNameCheck, lcName) || CUSTOM_ELEMENT_HANDLING.attributeNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.attributeNameCheck(lcName)) || // Alternative, second condition checks if it's an `is`-attribute, AND
+        // the value passes whatever the user has configured for CUSTOM_ELEMENT_HANDLING.tagNameCheck
+        lcName === 'is' && CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements && (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.tagNameCheck, value) || CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.tagNameCheck(value))) ; else {
+          return false;
+        }
+        /* Check value is safe. First, is attr inert? If so, is safe */
+
+      } else if (URI_SAFE_ATTRIBUTES[lcName]) ; else if (regExpTest(IS_ALLOWED_URI$1, stringReplace(value, ATTR_WHITESPACE$1, ''))) ; else if ((lcName === 'src' || lcName === 'xlink:href' || lcName === 'href') && lcTag !== 'script' && stringIndexOf(value, 'data:') === 0 && DATA_URI_TAGS[lcTag]) ; else if (ALLOW_UNKNOWN_PROTOCOLS && !regExpTest(IS_SCRIPT_OR_DATA$1, stringReplace(value, ATTR_WHITESPACE$1, ''))) ; else if (value) {
+        return false;
+      } else ;
+
+      return true;
+    };
+    /**
+     * _basicCustomElementCheck
+     * checks if at least one dash is included in tagName, and it's not the first char
+     * for more sophisticated checking see https://github.com/sindresorhus/validate-element-name
+     * @param {string} tagName name of the tag of the node to sanitize
+     */
+
+
+    var _basicCustomElementTest = function _basicCustomElementTest(tagName) {
+      return tagName.indexOf('-') > 0;
+    };
+    /**
+     * _sanitizeAttributes
+     *
+     * @protect attributes
+     * @protect nodeName
+     * @protect removeAttribute
+     * @protect setAttribute
+     *
+     * @param  {Node} currentNode to sanitize
+     */
+
+
+    var _sanitizeAttributes = function _sanitizeAttributes(currentNode) {
+      var attr;
+      var value;
+      var lcName;
+      var l;
+      /* Execute a hook if present */
+
+      _executeHook('beforeSanitizeAttributes', currentNode, null);
+
+      var attributes = currentNode.attributes;
+      /* Check if we have attributes; if not we might have a text node */
+
+      if (!attributes) {
+        return;
+      }
+
+      var hookEvent = {
+        attrName: '',
+        attrValue: '',
+        keepAttr: true,
+        allowedAttributes: ALLOWED_ATTR
+      };
+      l = attributes.length;
+      /* Go backwards over all attributes; safely remove bad ones */
+
+      while (l--) {
+        attr = attributes[l];
+        var _attr = attr,
+            name = _attr.name,
+            namespaceURI = _attr.namespaceURI;
+        value = name === 'value' ? attr.value : stringTrim(attr.value);
+        lcName = transformCaseFunc(name);
+        /* Execute a hook if present */
+
+        hookEvent.attrName = lcName;
+        hookEvent.attrValue = value;
+        hookEvent.keepAttr = true;
+        hookEvent.forceKeepAttr = undefined; // Allows developers to see this is a property they can set
+
+        _executeHook('uponSanitizeAttribute', currentNode, hookEvent);
+
+        value = hookEvent.attrValue;
+        /* Did the hooks approve of the attribute? */
+
+        if (hookEvent.forceKeepAttr) {
+          continue;
+        }
+        /* Remove attribute */
+
+
+        _removeAttribute(name, currentNode);
+        /* Did the hooks approve of the attribute? */
+
+
+        if (!hookEvent.keepAttr) {
+          continue;
+        }
+        /* Work around a security issue in jQuery 3.0 */
+
+
+        if (!ALLOW_SELF_CLOSE_IN_ATTR && regExpTest(/\/>/i, value)) {
+          _removeAttribute(name, currentNode);
+
+          continue;
+        }
+        /* Sanitize attribute content to be template-safe */
+
+
+        if (SAFE_FOR_TEMPLATES) {
+          value = stringReplace(value, MUSTACHE_EXPR$1, ' ');
+          value = stringReplace(value, ERB_EXPR$1, ' ');
+          value = stringReplace(value, TMPLIT_EXPR$1, ' ');
+        }
+        /* Is `value` valid for this attribute? */
+
+
+        var lcTag = transformCaseFunc(currentNode.nodeName);
+
+        if (!_isValidAttribute(lcTag, lcName, value)) {
+          continue;
+        }
+        /* Full DOM Clobbering protection via namespace isolation,
+         * Prefix id and name attributes with `user-content-`
+         */
+
+
+        if (SANITIZE_NAMED_PROPS && (lcName === 'id' || lcName === 'name')) {
+          // Remove the attribute with this value
+          _removeAttribute(name, currentNode); // Prefix the value and later re-create the attribute with the sanitized value
+
+
+          value = SANITIZE_NAMED_PROPS_PREFIX + value;
+        }
+        /* Handle attributes that require Trusted Types */
+
+
+        if (trustedTypesPolicy && _typeof(trustedTypes) === 'object' && typeof trustedTypes.getAttributeType === 'function') {
+          if (namespaceURI) ; else {
+            switch (trustedTypes.getAttributeType(lcTag, lcName)) {
+              case 'TrustedHTML':
+                {
+                  value = trustedTypesPolicy.createHTML(value);
+                  break;
+                }
+
+              case 'TrustedScriptURL':
+                {
+                  value = trustedTypesPolicy.createScriptURL(value);
+                  break;
+                }
+            }
+          }
+        }
+        /* Handle invalid data-* attribute set by try-catching it */
+
+
+        try {
+          if (namespaceURI) {
+            currentNode.setAttributeNS(namespaceURI, name, value);
+          } else {
+            /* Fallback to setAttribute() for browser-unrecognized namespaces e.g. "x-schema". */
+            currentNode.setAttribute(name, value);
+          }
+
+          arrayPop(DOMPurify.removed);
+        } catch (_) {}
+      }
+      /* Execute a hook if present */
+
+
+      _executeHook('afterSanitizeAttributes', currentNode, null);
+    };
+    /**
+     * _sanitizeShadowDOM
+     *
+     * @param  {DocumentFragment} fragment to iterate over recursively
+     */
+
+
+    var _sanitizeShadowDOM = function _sanitizeShadowDOM(fragment) {
+      var shadowNode;
+
+      var shadowIterator = _createIterator(fragment);
+      /* Execute a hook if present */
+
+
+      _executeHook('beforeSanitizeShadowDOM', fragment, null);
+
+      while (shadowNode = shadowIterator.nextNode()) {
+        /* Execute a hook if present */
+        _executeHook('uponSanitizeShadowNode', shadowNode, null);
+        /* Sanitize tags and elements */
+
+
+        if (_sanitizeElements(shadowNode)) {
+          continue;
+        }
+        /* Deep shadow DOM detected */
+
+
+        if (shadowNode.content instanceof DocumentFragment) {
+          _sanitizeShadowDOM(shadowNode.content);
+        }
+        /* Check attributes, sanitize if necessary */
+
+
+        _sanitizeAttributes(shadowNode);
+      }
+      /* Execute a hook if present */
+
+
+      _executeHook('afterSanitizeShadowDOM', fragment, null);
+    };
+    /**
+     * Sanitize
+     * Public method providing core sanitation functionality
+     *
+     * @param {String|Node} dirty string or DOM node
+     * @param {Object} configuration object
+     */
+    // eslint-disable-next-line complexity
+
+
+    DOMPurify.sanitize = function (dirty) {
+      var cfg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var body;
+      var importedNode;
+      var currentNode;
+      var oldNode;
+      var returnNode;
+      /* Make sure we have a string to sanitize.
+        DO NOT return early, as this will return the wrong type if
+        the user has requested a DOM object rather than a string */
+
+      IS_EMPTY_INPUT = !dirty;
+
+      if (IS_EMPTY_INPUT) {
+        dirty = '<!-->';
+      }
+      /* Stringify, in case dirty is an object */
+
+
+      if (typeof dirty !== 'string' && !_isNode(dirty)) {
+        if (typeof dirty.toString === 'function') {
+          dirty = dirty.toString();
+
+          if (typeof dirty !== 'string') {
+            throw typeErrorCreate('dirty is not a string, aborting');
+          }
+        } else {
+          throw typeErrorCreate('toString is not a function');
+        }
+      }
+      /* Check we can run. Otherwise fall back or ignore */
+
+
+      if (!DOMPurify.isSupported) {
+        if (_typeof(window.toStaticHTML) === 'object' || typeof window.toStaticHTML === 'function') {
+          if (typeof dirty === 'string') {
+            return window.toStaticHTML(dirty);
+          }
+
+          if (_isNode(dirty)) {
+            return window.toStaticHTML(dirty.outerHTML);
+          }
+        }
+
+        return dirty;
+      }
+      /* Assign config vars */
+
+
+      if (!SET_CONFIG) {
+        _parseConfig(cfg);
+      }
+      /* Clean up removed elements */
+
+
+      DOMPurify.removed = [];
+      /* Check if dirty is correctly typed for IN_PLACE */
+
+      if (typeof dirty === 'string') {
+        IN_PLACE = false;
+      }
+
+      if (IN_PLACE) {
+        /* Do some early pre-sanitization to avoid unsafe root nodes */
+        if (dirty.nodeName) {
+          var tagName = transformCaseFunc(dirty.nodeName);
+
+          if (!ALLOWED_TAGS[tagName] || FORBID_TAGS[tagName]) {
+            throw typeErrorCreate('root node is forbidden and cannot be sanitized in-place');
+          }
+        }
+      } else if (dirty instanceof Node) {
+        /* If dirty is a DOM element, append to an empty document to avoid
+           elements being stripped by the parser */
+        body = _initDocument('<!---->');
+        importedNode = body.ownerDocument.importNode(dirty, true);
+
+        if (importedNode.nodeType === 1 && importedNode.nodeName === 'BODY') {
+          /* Node is already a body, use as is */
+          body = importedNode;
+        } else if (importedNode.nodeName === 'HTML') {
+          body = importedNode;
+        } else {
+          // eslint-disable-next-line unicorn/prefer-dom-node-append
+          body.appendChild(importedNode);
+        }
+      } else {
+        /* Exit directly if we have nothing to do */
+        if (!RETURN_DOM && !SAFE_FOR_TEMPLATES && !WHOLE_DOCUMENT && // eslint-disable-next-line unicorn/prefer-includes
+        dirty.indexOf('<') === -1) {
+          return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? trustedTypesPolicy.createHTML(dirty) : dirty;
+        }
+        /* Initialize the document to work on */
+
+
+        body = _initDocument(dirty);
+        /* Check we have a DOM node from the data */
+
+        if (!body) {
+          return RETURN_DOM ? null : RETURN_TRUSTED_TYPE ? emptyHTML : '';
+        }
+      }
+      /* Remove first element node (ours) if FORCE_BODY is set */
+
+
+      if (body && FORCE_BODY) {
+        _forceRemove(body.firstChild);
+      }
+      /* Get node iterator */
+
+
+      var nodeIterator = _createIterator(IN_PLACE ? dirty : body);
+      /* Now start iterating over the created document */
+
+
+      while (currentNode = nodeIterator.nextNode()) {
+        /* Fix IE's strange behavior with manipulated textNodes #89 */
+        if (currentNode.nodeType === 3 && currentNode === oldNode) {
+          continue;
+        }
+        /* Sanitize tags and elements */
+
+
+        if (_sanitizeElements(currentNode)) {
+          continue;
+        }
+        /* Shadow DOM detected, sanitize it */
+
+
+        if (currentNode.content instanceof DocumentFragment) {
+          _sanitizeShadowDOM(currentNode.content);
+        }
+        /* Check attributes, sanitize if necessary */
+
+
+        _sanitizeAttributes(currentNode);
+
+        oldNode = currentNode;
+      }
+
+      oldNode = null;
+      /* If we sanitized `dirty` in-place, return it. */
+
+      if (IN_PLACE) {
+        return dirty;
+      }
+      /* Return sanitized string or DOM */
+
+
+      if (RETURN_DOM) {
+        if (RETURN_DOM_FRAGMENT) {
+          returnNode = createDocumentFragment.call(body.ownerDocument);
+
+          while (body.firstChild) {
+            // eslint-disable-next-line unicorn/prefer-dom-node-append
+            returnNode.appendChild(body.firstChild);
+          }
+        } else {
+          returnNode = body;
+        }
+
+        if (ALLOWED_ATTR.shadowroot || ALLOWED_ATTR.shadowrootmod) {
+          /*
+            AdoptNode() is not used because internal state is not reset
+            (e.g. the past names map of a HTMLFormElement), this is safe
+            in theory but we would rather not risk another attack vector.
+            The state that is cloned by importNode() is explicitly defined
+            by the specs.
+          */
+          returnNode = importNode.call(originalDocument, returnNode, true);
+        }
+
+        return returnNode;
+      }
+
+      var serializedHTML = WHOLE_DOCUMENT ? body.outerHTML : body.innerHTML;
+      /* Serialize doctype if allowed */
+
+      if (WHOLE_DOCUMENT && ALLOWED_TAGS['!doctype'] && body.ownerDocument && body.ownerDocument.doctype && body.ownerDocument.doctype.name && regExpTest(DOCTYPE_NAME, body.ownerDocument.doctype.name)) {
+        serializedHTML = '<!DOCTYPE ' + body.ownerDocument.doctype.name + '>\n' + serializedHTML;
+      }
+      /* Sanitize final string template-safe */
+
+
+      if (SAFE_FOR_TEMPLATES) {
+        serializedHTML = stringReplace(serializedHTML, MUSTACHE_EXPR$1, ' ');
+        serializedHTML = stringReplace(serializedHTML, ERB_EXPR$1, ' ');
+        serializedHTML = stringReplace(serializedHTML, TMPLIT_EXPR$1, ' ');
+      }
+
+      return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? trustedTypesPolicy.createHTML(serializedHTML) : serializedHTML;
+    };
+    /**
+     * Public method to set the configuration once
+     * setConfig
+     *
+     * @param {Object} cfg configuration object
+     */
+
+
+    DOMPurify.setConfig = function (cfg) {
+      _parseConfig(cfg);
+
+      SET_CONFIG = true;
+    };
+    /**
+     * Public method to remove the configuration
+     * clearConfig
+     *
+     */
+
+
+    DOMPurify.clearConfig = function () {
+      CONFIG = null;
+      SET_CONFIG = false;
+    };
+    /**
+     * Public method to check if an attribute value is valid.
+     * Uses last set config, if any. Otherwise, uses config defaults.
+     * isValidAttribute
+     *
+     * @param  {string} tag Tag name of containing element.
+     * @param  {string} attr Attribute name.
+     * @param  {string} value Attribute value.
+     * @return {Boolean} Returns true if `value` is valid. Otherwise, returns false.
+     */
+
+
+    DOMPurify.isValidAttribute = function (tag, attr, value) {
+      /* Initialize shared config vars if necessary. */
+      if (!CONFIG) {
+        _parseConfig({});
+      }
+
+      var lcTag = transformCaseFunc(tag);
+      var lcName = transformCaseFunc(attr);
+      return _isValidAttribute(lcTag, lcName, value);
+    };
+    /**
+     * AddHook
+     * Public method to add DOMPurify hooks
+     *
+     * @param {String} entryPoint entry point for the hook to add
+     * @param {Function} hookFunction function to execute
+     */
+
+
+    DOMPurify.addHook = function (entryPoint, hookFunction) {
+      if (typeof hookFunction !== 'function') {
+        return;
+      }
+
+      hooks[entryPoint] = hooks[entryPoint] || [];
+      arrayPush(hooks[entryPoint], hookFunction);
+    };
+    /**
+     * RemoveHook
+     * Public method to remove a DOMPurify hook at a given entryPoint
+     * (pops it from the stack of hooks if more are present)
+     *
+     * @param {String} entryPoint entry point for the hook to remove
+     * @return {Function} removed(popped) hook
+     */
+
+
+    DOMPurify.removeHook = function (entryPoint) {
+      if (hooks[entryPoint]) {
+        return arrayPop(hooks[entryPoint]);
+      }
+    };
+    /**
+     * RemoveHooks
+     * Public method to remove all DOMPurify hooks at a given entryPoint
+     *
+     * @param  {String} entryPoint entry point for the hooks to remove
+     */
+
+
+    DOMPurify.removeHooks = function (entryPoint) {
+      if (hooks[entryPoint]) {
+        hooks[entryPoint] = [];
+      }
+    };
+    /**
+     * RemoveAllHooks
+     * Public method to remove all DOMPurify hooks
+     *
+     */
+
+
+    DOMPurify.removeAllHooks = function () {
+      hooks = {};
+    };
+
+    return DOMPurify;
+  }
+
+  var purify = createDOMPurify();
+
+  return purify;
+
+}));
+//# sourceMappingURL=purify.js.map
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__1__;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var quill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var quill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(quill__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+var Clipboard = quill__WEBPACK_IMPORTED_MODULE_0___default.a["import"]("modules/clipboard");
+var Delta = quill__WEBPACK_IMPORTED_MODULE_0___default.a["import"]("delta");
+var QuillPasteSmart = /*#__PURE__*/function (_Clipboard) {
+  _inherits(QuillPasteSmart, _Clipboard);
+  var _super = _createSuper(QuillPasteSmart);
+  function QuillPasteSmart(quill, options) {
+    var _this;
+    _classCallCheck(this, QuillPasteSmart);
+    _this = _super.call(this, quill, options);
+    _this.allowed = options.allowed;
+    _this.keepSelection = options.keepSelection;
+    _this.substituteBlockElements = options.substituteBlockElements;
+    _this.magicPasteLinks = options.magicPasteLinks;
+    _this.hooks = options.hooks;
+    return _this;
+  }
+  _createClass(QuillPasteSmart, [{
+    key: "onPaste",
+    value: function onPaste(e) {
+      var _this2 = this;
+      e.preventDefault();
+      var range = this.quill.getSelection();
+      var text;
+      var html;
+      var file;
+      if ((!e.clipboardData || !e.clipboardData.getData) && window.clipboardData && window.clipboardData.getData) {
+        // compatibility with older IE versions
+        text = window.clipboardData.getData("Text");
+      } else {
+        var _e$clipboardData;
+        text = e.clipboardData.getData("text/plain");
+        html = e.clipboardData.getData("text/html");
+        file = (_e$clipboardData = e.clipboardData) === null || _e$clipboardData === void 0 || (_e$clipboardData = _e$clipboardData.items) === null || _e$clipboardData === void 0 ? void 0 : _e$clipboardData[0];
+      }
+      var delta = new Delta().retain(range.index)["delete"](range.length);
+      var DOMPurifyOptions = this.getDOMPurifyOptions();
+      var content = text;
+      if (html) {
+        var _this$hooks, _this$hooks2, _this$hooks3, _this$hooks4, _this$hooks5, _this$hooks6, _this$hooks7, _this$hooks8, _this$hooks9;
+        // add hooks to accessible setttings
+        if (typeof ((_this$hooks = this.hooks) === null || _this$hooks === void 0 ? void 0 : _this$hooks.beforeSanitizeElements) === "function") {
+          dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.addHook("beforeSanitizeElements", this.hooks.beforeSanitizeElements);
+        }
+        if (typeof ((_this$hooks2 = this.hooks) === null || _this$hooks2 === void 0 ? void 0 : _this$hooks2.uponSanitizeElement) === "function") {
+          dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.addHook("uponSanitizeElement", this.hooks.uponSanitizeElement);
+        }
+        if (typeof ((_this$hooks3 = this.hooks) === null || _this$hooks3 === void 0 ? void 0 : _this$hooks3.afterSanitizeElements) === "function") {
+          dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.addHook("afterSanitizeElements", this.hooks.afterSanitizeElements);
+        }
+        if (typeof ((_this$hooks4 = this.hooks) === null || _this$hooks4 === void 0 ? void 0 : _this$hooks4.beforeSanitizeAttributes) === "function") {
+          dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.addHook("beforeSanitizeAttributes", this.hooks.beforeSanitizeAttributes);
+        }
+        if (typeof ((_this$hooks5 = this.hooks) === null || _this$hooks5 === void 0 ? void 0 : _this$hooks5.uponSanitizeAttribute) === "function") {
+          dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.addHook("uponSanitizeAttribute", this.hooks.uponSanitizeAttribute);
+        }
+        if (typeof ((_this$hooks6 = this.hooks) === null || _this$hooks6 === void 0 ? void 0 : _this$hooks6.afterSanitizeAttributes) === "function") {
+          dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.addHook("afterSanitizeAttributes", this.hooks.afterSanitizeAttributes);
+        }
+        if (typeof ((_this$hooks7 = this.hooks) === null || _this$hooks7 === void 0 ? void 0 : _this$hooks7.beforeSanitizeShadowDOM) === "function") {
+          dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.addHook("beforeSanitizeShadowDOM", this.hooks.beforeSanitizeShadowDOM);
+        }
+        if (typeof ((_this$hooks8 = this.hooks) === null || _this$hooks8 === void 0 ? void 0 : _this$hooks8.uponSanitizeShadowNode) === "function") {
+          dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.addHook("uponSanitizeShadowNode", this.hooks.uponSanitizeShadowNode);
+        }
+        if (typeof ((_this$hooks9 = this.hooks) === null || _this$hooks9 === void 0 ? void 0 : _this$hooks9.afterSanitizeShadowDOM) === "function") {
+          dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.addHook("afterSanitizeShadowDOM", this.hooks.afterSanitizeShadowDOM);
+        }
+        if (this.substituteBlockElements !== false) {
+          // html = DOMPurify.sanitize(html, { ...DOMPurifyOptions, ...{ RETURN_DOM: true, WHOLE_DOCUMENT: false } });
+          html = this.substitute(html, DOMPurifyOptions);
+          content = html.innerHTML;
+        } else {
+          content = dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.sanitize(html, DOMPurifyOptions);
+        }
+        delta = delta.concat(this.convert(content));
+      } else if (DOMPurifyOptions.ALLOWED_TAGS.includes("a") && this.isURL(text) && range.length > 0 && this.magicPasteLinks) {
+        content = this.quill.getText(range.index, range.length);
+        console.log("slinto content", content);
+        console.log("slinto text", text);
+
+        // NOTE: add https:// to url if not contains
+        var link = !/^https?:\/\//i.test(text) ? "https://".concat(text) : text;
+        console.log("slinto link", link);
+        delta = delta.insert(content, {
+          link: link
+        });
+      } else if (DOMPurifyOptions.ALLOWED_TAGS.includes("img") && file && file.kind === "file" && file.type.match(/^image\//i)) {
+        var image = file.getAsFile();
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          _this2.quill.insertEmbed(range.index, "image", e.target.result);
+          // if required, manually update the selection after the file loads
+          if (!_this2.keepSelection) _this2.quill.setSelection(range.index + 1);
+        };
+        reader.readAsDataURL(image);
+      } else {
+        delta = delta.insert(content);
+      }
+      this.quill.updateContents(delta, quill__WEBPACK_IMPORTED_MODULE_0___default.a.sources.USER);
+
+      // move cursor
+      delta = this.convert(content);
+      if (this.keepSelection) this.quill.setSelection(range.index, delta.length(), quill__WEBPACK_IMPORTED_MODULE_0___default.a.sources.SILENT);else this.quill.setSelection(range.index + delta.length(), quill__WEBPACK_IMPORTED_MODULE_0___default.a.sources.SILENT);
+      this.quill.scrollIntoView();
+      dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.removeAllHooks();
+    }
+  }, {
+    key: "getDOMPurifyOptions",
+    value: function getDOMPurifyOptions() {
+      var _this$allowed, _this$allowed2;
+      var tidy = {};
+      if ((_this$allowed = this.allowed) !== null && _this$allowed !== void 0 && _this$allowed.tags) tidy.ALLOWED_TAGS = this.allowed.tags;
+      if ((_this$allowed2 = this.allowed) !== null && _this$allowed2 !== void 0 && _this$allowed2.attributes) tidy.ALLOWED_ATTR = this.allowed.attributes;
+      if (tidy.ALLOWED_TAGS === undefined || tidy.ALLOWED_ATTR === undefined) {
+        var _toolbar$controls;
+        var undefinedTags = false;
+        if (tidy.ALLOWED_TAGS === undefined) {
+          undefinedTags = true;
+          tidy.ALLOWED_TAGS = ["p", "br", "span"];
+        }
+        var undefinedAttr = false;
+        if (tidy.ALLOWED_ATTR === undefined) {
+          undefinedAttr = true;
+          tidy.ALLOWED_ATTR = ["class"];
+        }
+        var toolbar = this.quill.getModule("toolbar");
+        toolbar === null || toolbar === void 0 || (_toolbar$controls = toolbar.controls) === null || _toolbar$controls === void 0 ? void 0 : _toolbar$controls.forEach(function (control) {
+          switch (control[0]) {
+            case "bold":
+              if (undefinedTags) {
+                tidy.ALLOWED_TAGS.push("b");
+                tidy.ALLOWED_TAGS.push("strong");
+              }
+              break;
+            case "italic":
+              if (undefinedTags) {
+                tidy.ALLOWED_TAGS.push("i");
+                tidy.ALLOWED_TAGS.push("em");
+              }
+              break;
+            case "underline":
+              if (undefinedTags) {
+                tidy.ALLOWED_TAGS.push("u");
+              }
+              break;
+            case "strike":
+              if (undefinedTags) {
+                tidy.ALLOWED_TAGS.push("s");
+              }
+              break;
+            case "color":
+            case "background":
+              if (undefinedAttr) {
+                tidy.ALLOWED_ATTR.push("style");
+              }
+              break;
+            case "script":
+              if (undefinedTags) {
+                if (control[1].value === "super") {
+                  tidy.ALLOWED_TAGS.push("sup");
+                } else if (control[1].value === "sub") {
+                  tidy.ALLOWED_TAGS.push("sub");
+                }
+              }
+              break;
+            case "header":
+              if (undefinedTags) {
+                var detectAllowedHeadingTag = function detectAllowedHeadingTag(value) {
+                  if (value === "1") {
+                    tidy.ALLOWED_TAGS.push("h1");
+                  } else if (value === "2") {
+                    tidy.ALLOWED_TAGS.push("h2");
+                  } else if (value === "3") {
+                    tidy.ALLOWED_TAGS.push("h3");
+                  } else if (value === "4") {
+                    tidy.ALLOWED_TAGS.push("h4");
+                  } else if (value === "5") {
+                    tidy.ALLOWED_TAGS.push("h5");
+                  } else if (value === "6") {
+                    tidy.ALLOWED_TAGS.push("h6");
+                  }
+                };
+                if (control[1].value) detectAllowedHeadingTag(control[1].value);else if (control[1].options && control[1].options.length) {
+                  [].forEach.call(control[1].options, function (option) {
+                    if (option.value) detectAllowedHeadingTag(option.value);
+                  });
+                }
+              }
+              break;
+            case "code-block":
+              if (undefinedTags) {
+                tidy.ALLOWED_TAGS.push("pre");
+              }
+              if (undefinedAttr) {
+                tidy.ALLOWED_ATTR.push("spellcheck");
+              }
+              break;
+            case "list":
+              if (undefinedTags) {
+                if (control[1].value === "ordered") {
+                  tidy.ALLOWED_TAGS.push("ol");
+                } else if (control[1].value === "bullet") {
+                  tidy.ALLOWED_TAGS.push("ul");
+                }
+                tidy.ALLOWED_TAGS.push("li");
+              }
+              break;
+            case "link":
+              if (undefinedTags) {
+                tidy.ALLOWED_TAGS.push("a");
+              }
+              if (undefinedAttr) {
+                tidy.ALLOWED_ATTR.push("href");
+                tidy.ALLOWED_ATTR.push("target");
+                tidy.ALLOWED_ATTR.push("rel");
+              }
+              break;
+            case "image":
+              if (undefinedTags) {
+                tidy.ALLOWED_TAGS.push("img");
+              }
+              if (undefinedAttr) {
+                tidy.ALLOWED_ATTR.push("src");
+                tidy.ALLOWED_ATTR.push("title");
+                tidy.ALLOWED_ATTR.push("alt");
+              }
+              break;
+            case "video":
+              if (undefinedTags) {
+                tidy.ALLOWED_TAGS.push("iframe");
+              }
+              if (undefinedAttr) {
+                tidy.ALLOWED_ATTR.push("frameborder");
+                tidy.ALLOWED_ATTR.push("allowfullscreen");
+                tidy.ALLOWED_ATTR.push("src");
+              }
+              break;
+            case "blockquote":
+              if (undefinedTags) {
+                tidy.ALLOWED_TAGS.push(control[0]);
+              }
+              break;
+          }
+        });
+      }
+      return tidy;
+    }
+
+    // replace forbidden block elements with a p tag
+  }, {
+    key: "substitute",
+    value: function substitute(html, DOMPurifyOptions) {
+      var substitution;
+      var headings = ["h1", "h2", "h3", "h4", "h5", "h6"];
+      var blockElements = ["p", "div", "section", "article", "fieldset", "address", "aside", "blockquote", "canvas", "dl", "figcaption", "figure", "footer", "form", "header", "main", "nav", "noscript", "ol", "pre", "table", "tfoot", "ul", "video"];
+      var newLineElements = ["li", "dt", "dd", "hr"];
+      dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.addHook("uponSanitizeElement", function (node, data, config) {
+        // check if current tag is a heading
+        // - is it supported?
+        // - no? - replace it with <p> and <b>
+        // -----------------
+        // check if current tag is a block element
+        // - is it supported?
+        // - no? - replace it with <p>
+        // -----------------
+        // check if current tag is a new line element
+        // - is it supported?
+        // - no? - remove the tag and append a <br>
+
+        // find possible substitution
+        var i = 0;
+        while (!substitution && i < 3) {
+          if (DOMPurifyOptions.ALLOWED_TAGS.includes(blockElements[i])) substitution = blockElements[i];
+          ++i;
+        }
+        if (substitution && node.tagName && !DOMPurifyOptions.ALLOWED_TAGS.includes(node.tagName.toLowerCase())) {
+          var tagName = node.tagName.toLowerCase();
+          if (headings.includes(tagName)) {
+            node.innerHTML = "<".concat(substitution, "><b>").concat(node.innerHTML, "</b></").concat(substitution, ">");
+          } else if (blockElements.includes(tagName)) {
+            node.innerHTML = "<".concat(substitution, ">").concat(node.innerHTML, "</").concat(substitution, ">");
+          } else if (newLineElements.includes(tagName)) {
+            node.innerHTML = "".concat(node.innerHTML, "<br>");
+          }
+        }
+      });
+      html = dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.sanitize(html, _objectSpread(_objectSpread({}, DOMPurifyOptions), {
+        RETURN_DOM: true,
+        WHOLE_DOCUMENT: false
+      }));
+      dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.removeAllHooks();
+
+      // fix quill bug #3333
+      // span content placed into the next tag
+
+      var depth = 0;
+      var walkTheDOM = function walkTheDOM(node, func) {
+        func(node, depth);
+        // node = node.firstChild;
+        if (depth <= 1) node = node.firstChild;else node = undefined;
+        while (node) {
+          ++depth;
+          walkTheDOM(node, func);
+          node = node.nextSibling;
+        }
+        --depth;
+      };
+      var block;
+      var fixedDom = document.createElement("body");
+      walkTheDOM(html, function (node, depth) {
+        if (depth === 1) {
+          if (node.tagName && blockElements.includes(node.tagName.toLowerCase())) {
+            if (block) block = undefined;
+            var element = document.createElement(node.tagName.toLowerCase());
+            element.innerHTML = node.innerHTML;
+            fixedDom.appendChild(element);
+          } else {
+            if (block === undefined) {
+              block = document.createElement(substitution);
+              fixedDom.appendChild(block);
+            }
+            if (node.tagName) {
+              var _element = document.createElement(node.tagName.toLowerCase());
+              var attributes = node.attributes;
+              if (attributes.length) {
+                Array.from(attributes).forEach(function (el) {
+                  return _element.setAttribute(el.nodeName, el.value);
+                });
+              }
+              if (node.innerHTML) _element.innerHTML = node.innerHTML;
+              block.appendChild(_element);
+            } else {
+              // plain text
+              var _element2 = document.createTextNode(node.textContent);
+              block.appendChild(_element2);
+            }
+          }
+        }
+      });
+      return fixedDom;
+    }
+  }, {
+    key: "isURL",
+    value: function isURL(str) {
+      var pattern = /^((?:(http|https):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\b|$)/gi;
+      return !!pattern.test(str);
+    }
+  }]);
+  return QuillPasteSmart;
+}(Clipboard);
+quill__WEBPACK_IMPORTED_MODULE_0___default.a.register("modules/clipboard", QuillPasteSmart, true);
+/* harmony default export */ __webpack_exports__["default"] = (QuillPasteSmart);
+
+/***/ })
+/******/ ]);
+});
