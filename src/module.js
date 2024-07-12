@@ -128,6 +128,11 @@ class QuillPasteSmart extends Clipboard {
         content = DOMPurify.sanitize(html, DOMPurifyOptions);
         delta = delta.insert(content);
       } else {
+        // Convert table headers to cells
+        if (DOMPurifyOptions.ALLOWED_TAGS.includes('table')) {
+          html = this.tableHeadersToCells(html);
+        }
+
         if (this.substituteBlockElements !== false) {
           // html = DOMPurify.sanitize(html, { ...DOMPurifyOptions, ...{ RETURN_DOM: true, WHOLE_DOCUMENT: false } });
           html = this.substitute(html, DOMPurifyOptions);
@@ -150,6 +155,34 @@ class QuillPasteSmart extends Clipboard {
     else this.quill.setSelection(range.index + delta.length(), Quill.sources.SILENT);
     this.quill.scrollSelectionIntoView();
     DOMPurify.removeAllHooks();
+  }
+
+  tableHeadersToCells(html) {
+    // Quill table doesn't support header cells
+    // Move first <tr> from <thead> to <tbody>, convert all <th> to <td>
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    const tables = tempDiv.querySelectorAll('table');
+    tables.forEach(table => {
+      // Check if the table has a <thead> element
+      const thead = table.querySelector('thead');
+      if (thead) {
+        // Move the <thead>'s first <tr> child to be the first child of <tbody>
+        const tbody = table.querySelector('tbody');
+        if (tbody) {
+          const firstRow = thead.querySelector('tr');
+          tbody.insertBefore(firstRow, tbody.firstChild);
+        }
+      }
+      // Convert all <th> elements to <td> elements
+      const thElements = table.querySelectorAll('th');
+      thElements.forEach(th => {
+        const td = document.createElement('td');
+        td.innerHTML = th.innerHTML;
+        th.parentNode.replaceChild(td, th);
+      });
+    });
+    return tempDiv.innerHTML;
   }
 
   getDOMPurifyOptions() {
@@ -280,9 +313,11 @@ class QuillPasteSmart extends Clipboard {
               tidy.ALLOWED_TAGS.push("img");
             }
             if (undefinedAttr) {
-              tidy.ALLOWED_ATTR.push("src");
-              tidy.ALLOWED_ATTR.push("title");
-              tidy.ALLOWED_ATTR.push("alt");
+              tidy.ALLOWED_ATTR.push('src');
+              tidy.ALLOWED_ATTR.push('title');
+              tidy.ALLOWED_ATTR.push('alt');
+              tidy.ALLOWED_ATTR.push('height');
+              tidy.ALLOWED_ATTR.push('width');
             }
             break;
 
@@ -291,9 +326,11 @@ class QuillPasteSmart extends Clipboard {
               tidy.ALLOWED_TAGS.push("iframe");
             }
             if (undefinedAttr) {
-              tidy.ALLOWED_ATTR.push("frameborder");
-              tidy.ALLOWED_ATTR.push("allowfullscreen");
-              tidy.ALLOWED_ATTR.push("src");
+              tidy.ALLOWED_ATTR.push('frameborder');
+              tidy.ALLOWED_ATTR.push('allowfullscreen');
+              tidy.ALLOWED_ATTR.push('src');
+              tidy.ALLOWED_ATTR.push('height');
+              tidy.ALLOWED_ATTR.push('width');
             }
             break;
 
@@ -302,8 +339,30 @@ class QuillPasteSmart extends Clipboard {
               tidy.ALLOWED_TAGS.push(control[0]);
             }
             break;
+
+          case 'table':
+            if (undefinedTags) {
+              tidy.ALLOWED_TAGS.push('table');
+              tidy.ALLOWED_TAGS.push('tr');
+              tidy.ALLOWED_TAGS.push('td');
+            }
+            break;
         }
       });
+
+      // support custom toolbar buttons from options
+      if (toolbar?.controls) {
+        this.customButtons?.forEach((button) => {
+          if (toolbar.controls.some(control => control[0] === button.module)) {
+            button.allowedTags?.forEach((tag) => {
+              tidy.ALLOWED_TAGS.push(tag);
+            });
+            button.allowedAttr?.forEach((attr) => {
+              tidy.ALLOWED_ATTR.push(attr);
+            });
+          }
+        });
+      }
     }
 
     return tidy;
@@ -315,30 +374,28 @@ class QuillPasteSmart extends Clipboard {
 
     const headings = ["h1", "h2", "h3", "h4", "h5", "h6"];
     const blockElements = [
-      "p",
-      "div",
-      "section",
-      "article",
-      "fieldset",
-      "address",
-      "aside",
-      "blockquote",
-      "canvas",
-      "dl",
-      "figcaption",
-      "figure",
-      "footer",
-      "form",
-      "header",
-      "main",
-      "nav",
-      "noscript",
-      "ol",
-      "pre",
-      "table",
-      "tfoot",
-      "ul",
-      "video",
+      'p',
+      'div',
+      'section',
+      'article',
+      'fieldset',
+      'address',
+      'aside',
+      'blockquote',
+      'canvas',
+      'dl',
+      'figcaption',
+      'figure',
+      'footer',
+      'form',
+      'header',
+      'main',
+      'nav',
+      'noscript',
+      'ol',
+      'pre',
+      'ul',
+      'video',
     ];
     const newLineElements = ["li", "dt", "dd", "hr"];
 
