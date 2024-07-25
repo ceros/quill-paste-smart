@@ -5,8 +5,24 @@ However, you can also decide on your own, what is allowed.
 
 ## Fork status
 
-This package is a fork of the [quill-paste-smart](https://github.com/Artem-Schander/quill-paste-smart) npm package. The original source
-code is available on GitHub at [quill-paste-smart](https://github.com/Artem-Schander/quill-paste-smart).
+### Installation
+
+You can install this plugin either with [npm](https://www.npmjs.com/) or with [yarn](https://yarnpkg.com/).  
+Run one of the following commands from your projects root in a bash prompt.
+
+```bash
+npm i quill-paste-smart
+# or: yarn add quill-paste-smart
+```
+
+If you are using Quill v1, you must also install the [v1](https://github.com/Artem-Schander/quill-paste-smart/tree/legacy) of this package
+
+```bash
+npm i quill-paste-smart@^1
+# or: yarn add quill-paste-smart@^1
+```
+
+<br>
 
 ### Usage
 
