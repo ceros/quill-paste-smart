@@ -5,6 +5,9 @@ However, you can also decide on your own, what is allowed.
 
 ## Fork status
 
+This package is a fork of the [quill-paste-smart](https://github.com/Artem-Schander/quill-paste-smart) npm package. The original source
+code is available on GitHub at [quill-paste-smart](https://github.com/Artem-Schander/quill-paste-smart). Version of this package is equal to version of original package, to make it clear which version of original package is used.
+
 ### Installation
 
 You can install this plugin either with [npm](https://www.npmjs.com/) or with [yarn](https://yarnpkg.com/).  
