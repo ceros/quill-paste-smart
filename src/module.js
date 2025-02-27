@@ -13,35 +13,67 @@ class QuillPasteSmart extends Clipboard {
     this.substituteBlockElements = options.substituteBlockElements;
     this.magicPasteLinks = options.magicPasteLinks;
     this.hooks = options.hooks;
+    this.handleImagePaste = options.handleImagePaste;
+    this.customButtons = options.customButtons;
+    this.removeConsecutiveSubstitutionTags = options.removeConsecutiveSubstitutionTags;
   }
 
-  onPaste(e) {
+  onCapturePaste(e) {
+    if (e.defaultPrevented || !this.quill.isEnabled()) return;
+
     e.preventDefault();
+
     const range = this.quill.getSelection();
+    if (range == null)  return;
 
-    let text;
-    let html;
-    let file;
-
-    if (
-      (!e.clipboardData || !e.clipboardData.getData) &&
-      window.clipboardData &&
-      window.clipboardData.getData
-    ) {
-      // compatibility with older IE versions
-      text = window.clipboardData.getData("Text");
-    } else {
-      text = e.clipboardData.getData("text/plain");
-      html = e.clipboardData.getData("text/html");
-      file = e.clipboardData?.items?.[0];
-    }
-
+    let text = e.clipboardData?.getData('text/plain');
+    let html = e.clipboardData?.getData('text/html');
+    let file = e.clipboardData?.items?.[0];
     let delta = new Delta().retain(range.index).delete(range.length);
 
     const DOMPurifyOptions = this.getDOMPurifyOptions();
 
+    let plainText = false;
     let content = text;
-    if (html) {
+
+    if (
+      !html &&
+      DOMPurifyOptions.ALLOWED_TAGS.includes('a') &&
+      this.isURL(text) && range.length > 0 && this.magicPasteLinks
+    ) {
+      content = this.quill.getText(range.index, range.length);
+
+      // NOTE: add https:// to url if not contains
+      const link = !/^https?:\/\//i.test(text) ? `https://${text}` : text;
+
+      delta = delta.insert(content, {
+        link,
+      });
+    } else if (
+      !html &&
+      DOMPurifyOptions.ALLOWED_TAGS.includes('img') &&
+      file && file.kind === 'file' && file.type.match(/^image\//i)
+    ) {
+      const image = file.getAsFile()
+
+      if (this.handleImagePaste !== undefined) {
+        this.handleImagePaste(image);
+      } else {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          this.quill.insertEmbed(range.index, 'image', e.target.result)
+          // if required, manually update the selection after the file loads
+          if (!this.keepSelection) this.quill.setSelection(range.index + 1)
+        }
+        reader.readAsDataURL(image)
+      }
+    } else {
+
+      if (!html) {
+        plainText = true;
+        html = content;
+      }
+
       // add hooks to accessible setttings
       if (typeof this.hooks?.beforeSanitizeElements === "function") {
         DOMPurify.addHook(
@@ -98,64 +130,120 @@ class QuillPasteSmart extends Clipboard {
         );
       }
 
-      if (this.substituteBlockElements !== false) {
-        // html = DOMPurify.sanitize(html, { ...DOMPurifyOptions, ...{ RETURN_DOM: true, WHOLE_DOCUMENT: false } });
-        html = this.substitute(html, DOMPurifyOptions);
-        content = html.innerHTML;
-      } else {
+      if (plainText) {
         content = DOMPurify.sanitize(html, DOMPurifyOptions);
+        delta = delta.insert(content);
+      } else {
+        if (DOMPurifyOptions.ALLOWED_TAGS.includes('table')) {
+          // Convert table headers to cells
+          html = this.tableHeadersToCells(html);
+        } else {
+          // Convert rows and cells to block and inline content 
+          html = this.convertTableContent(html);
+        }
+
+        if (this.substituteBlockElements !== false) {
+          let substitution;
+          // html = DOMPurify.sanitize(html, { ...DOMPurifyOptions, ...{ RETURN_DOM: true, WHOLE_DOCUMENT: false } });
+          [html, substitution] = this.substitute(html, DOMPurifyOptions);
+          content = html.innerHTML;
+          if (this.removeConsecutiveSubstitutionTags) {
+            content = this.collapseConsecutiveSubstitutionTags(content, substitution);
+          }
+        } else {
+          content = DOMPurify.sanitize(html, DOMPurifyOptions);
+        }
+        delta = delta.concat(this.convert({ html: content }));
       }
-
-      delta = delta.concat(this.convert(content));
-    } else if (
-      DOMPurifyOptions.ALLOWED_TAGS.includes("a") &&
-      this.isURL(text) &&
-      range.length > 0 &&
-      this.magicPasteLinks
-    ) {
-      content = this.quill.getText(range.index, range.length);
-
-      // NOTE: add https:// to url if not contains
-      const link = !/^https?:\/\//i.test(text) ? `https://${text}` : text;
-
-      delta = delta.insert(content, {
-        link,
-      });
-    } else if (
-      DOMPurifyOptions.ALLOWED_TAGS.includes("img") &&
-      file &&
-      file.kind === "file" &&
-      file.type.match(/^image\//i)
-    ) {
-      const image = file.getAsFile();
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.quill.insertEmbed(range.index, "image", e.target.result);
-        // if required, manually update the selection after the file loads
-        if (!this.keepSelection) this.quill.setSelection(range.index + 1);
-      };
-      reader.readAsDataURL(image);
-    } else {
-      delta = delta.insert(content);
     }
 
     this.quill.updateContents(delta, Quill.sources.USER);
 
-    // move cursor
-    delta = this.convert(content);
-    if (this.keepSelection)
-      this.quill.setSelection(
-        range.index,
-        delta.length(),
-        Quill.sources.SILENT
-      );
-    else
-      this.quill.setSelection(
-        range.index + delta.length(),
-        Quill.sources.SILENT
-      );
-    this.quill.scrollIntoView();
+    if (!plainText) {
+      // move cursor
+      delta = this.convert({ html: content });
+    }
+
+    if (this.keepSelection) this.quill.setSelection(range.index, delta.length(), Quill.sources.SILENT);
+    else this.quill.setSelection(range.index + delta.length(), Quill.sources.SILENT);
+    this.quill.scrollSelectionIntoView();
     DOMPurify.removeAllHooks();
+  }
+
+  collapseConsecutiveSubstitutionTags(html, substitution) {
+    // Remove all consecutive occurances of substitution (e.g. <p></p>) from html, include tags with only whitespace
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html');
+    const tags = doc.querySelectorAll(substitution);
+    let removeNextTag = false;
+    tags.forEach(tag => {
+      if (!removeNextTag) {
+        removeNextTag = true;
+        return;
+      }
+
+      if (tag.firstChild === null || (tag.firstChild.nodeType === 3 && tag.firstChild.nodeValue.trim() === '')) {
+        tag.parentNode.removeChild(tag);
+      } else {
+        removeNextTag = false;
+      }
+    });
+    return doc.body.innerHTML;
+  }
+
+  tableHeadersToCells(html) {
+    // Quill table doesn't support header cells
+    // Move first <tr> from <thead> to <tbody>, convert all <th> to <td>
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html');
+    const tables = doc.querySelectorAll('table');
+    tables.forEach(table => {
+      // Check if the table has a <thead> element
+      const thead = table.querySelector('thead');
+      if (thead) {
+        // Move the <thead>'s first <tr> child to be the first child of <tbody>
+        const tbody = table.querySelector('tbody');
+        if (tbody) {
+          const firstRow = thead.querySelector('tr');
+          tbody.insertBefore(firstRow, tbody.firstChild);
+        }
+      }
+      // Convert all <th> elements to <td> elements
+      const thElements = table.querySelectorAll('th');
+      thElements.forEach(th => {
+        const td = document.createElement('td');
+        td.innerHTML = th.innerHTML;
+        th.parentNode.replaceChild(td, th);
+      });
+    });
+    return `<html>${doc.body.outerHTML}<html>`;
+  }
+
+  convertTableContent(html) {
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // Convert <tr> elements to <p> elements, concatenate td & th cell contents with inner space added
+    doc.querySelectorAll('tr').forEach(tr => {
+      tr.outerHTML = `<p>${Array.from(tr.querySelectorAll('td, th')).map(cell => cell.innerHTML).join(' ')}</p>`
+    });
+
+    // Convert orphan td & th elements to their innerHTML plus trailing space
+    doc.querySelectorAll('td, th').forEach(cell => {
+      cell.outerHTML = `${cell.innerHTML} `;
+    });
+  
+    // Collapse thead, tbody, and tfoot elements to their innerHTML
+    doc.querySelectorAll('thead, tbody, tfoot').forEach(rowContainers => {
+      rowContainers.outerHTML = rowContainers.innerHTML;
+    });
+
+    // Collapse table elements to their innerHTML
+    doc.querySelectorAll('table').forEach(tableEle => {
+      tableEle.outerHTML = tableEle.innerHTML;
+    });
+
+    return `<html>${doc.body.outerHTML}<html>`;
   }
 
   getDOMPurifyOptions() {
@@ -286,9 +374,11 @@ class QuillPasteSmart extends Clipboard {
               tidy.ALLOWED_TAGS.push("img");
             }
             if (undefinedAttr) {
-              tidy.ALLOWED_ATTR.push("src");
-              tidy.ALLOWED_ATTR.push("title");
-              tidy.ALLOWED_ATTR.push("alt");
+              tidy.ALLOWED_ATTR.push('src');
+              tidy.ALLOWED_ATTR.push('title');
+              tidy.ALLOWED_ATTR.push('alt');
+              tidy.ALLOWED_ATTR.push('height');
+              tidy.ALLOWED_ATTR.push('width');
             }
             break;
 
@@ -297,9 +387,11 @@ class QuillPasteSmart extends Clipboard {
               tidy.ALLOWED_TAGS.push("iframe");
             }
             if (undefinedAttr) {
-              tidy.ALLOWED_ATTR.push("frameborder");
-              tidy.ALLOWED_ATTR.push("allowfullscreen");
-              tidy.ALLOWED_ATTR.push("src");
+              tidy.ALLOWED_ATTR.push('frameborder');
+              tidy.ALLOWED_ATTR.push('allowfullscreen');
+              tidy.ALLOWED_ATTR.push('src');
+              tidy.ALLOWED_ATTR.push('height');
+              tidy.ALLOWED_ATTR.push('width');
             }
             break;
 
@@ -308,8 +400,30 @@ class QuillPasteSmart extends Clipboard {
               tidy.ALLOWED_TAGS.push(control[0]);
             }
             break;
+
+          case 'table':
+            if (undefinedTags) {
+              tidy.ALLOWED_TAGS.push('table');
+              tidy.ALLOWED_TAGS.push('tr');
+              tidy.ALLOWED_TAGS.push('td');
+            }
+            break;
         }
       });
+
+      // support custom toolbar buttons from options
+      if (toolbar?.controls) {
+        this.customButtons?.forEach((button) => {
+          if (toolbar.controls.some(control => control[0] === button.module)) {
+            button.allowedTags?.forEach((tag) => {
+              tidy.ALLOWED_TAGS.push(tag);
+            });
+            button.allowedAttr?.forEach((attr) => {
+              tidy.ALLOWED_ATTR.push(attr);
+            });
+          }
+        });
+      }
     }
 
     return tidy;
@@ -321,30 +435,28 @@ class QuillPasteSmart extends Clipboard {
 
     const headings = ["h1", "h2", "h3", "h4", "h5", "h6"];
     const blockElements = [
-      "p",
-      "div",
-      "section",
-      "article",
-      "fieldset",
-      "address",
-      "aside",
-      "blockquote",
-      "canvas",
-      "dl",
-      "figcaption",
-      "figure",
-      "footer",
-      "form",
-      "header",
-      "main",
-      "nav",
-      "noscript",
-      "ol",
-      "pre",
-      "table",
-      "tfoot",
-      "ul",
-      "video",
+      'p',
+      'div',
+      'section',
+      'article',
+      'fieldset',
+      'address',
+      'aside',
+      'blockquote',
+      'canvas',
+      'dl',
+      'figcaption',
+      'figure',
+      'footer',
+      'form',
+      'header',
+      'main',
+      'nav',
+      'noscript',
+      'ol',
+      'pre',
+      'ul',
+      'video',
     ];
     const newLineElements = ["li", "dt", "dd", "hr"];
 
@@ -391,69 +503,12 @@ class QuillPasteSmart extends Clipboard {
     });
     DOMPurify.removeAllHooks();
 
-    // fix quill bug #3333
-    // span content placed into the next tag
-
-    let depth = 0;
-    const walkTheDOM = (node, func) => {
-      func(node, depth);
-      // node = node.firstChild;
-      if (depth <= 1) node = node.firstChild;
-      else node = undefined;
-      while (node) {
-        ++depth;
-        walkTheDOM(node, func);
-        node = node.nextSibling;
-      }
-      --depth;
-    };
-
-    let block;
-    const fixedDom = document.createElement("body");
-    walkTheDOM(html, (node, depth) => {
-      if (depth === 1) {
-        if (
-          node.tagName &&
-          blockElements.includes(node.tagName.toLowerCase())
-        ) {
-          if (block) block = undefined;
-          const element = document.createElement(node.tagName.toLowerCase());
-          element.innerHTML = node.innerHTML;
-          fixedDom.appendChild(element);
-        } else {
-          if (block === undefined) {
-            block = document.createElement(substitution);
-            fixedDom.appendChild(block);
-          }
-
-          if (node.tagName) {
-            const element = document.createElement(node.tagName.toLowerCase());
-
-            const attributes = node.attributes;
-            if (attributes.length) {
-              Array.from(attributes).forEach((el) =>
-                element.setAttribute(el.nodeName, el.value)
-              );
-            }
-
-            if (node.innerHTML) element.innerHTML = node.innerHTML;
-            block.appendChild(element);
-          } else {
-            // plain text
-            const element = document.createTextNode(node.textContent);
-            block.appendChild(element);
-          }
-        }
-      }
-    });
-
-    return fixedDom;
+    return [html, substitution];
   }
 
   isURL(str) {
     const pattern =
-      /^((?:(http|https):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\b|$)/gi;
-
+        /^((?:(http|https):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\b|$)/gi;
     return !!pattern.test(str);
   }
 }
